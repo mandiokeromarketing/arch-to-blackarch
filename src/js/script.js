@@ -1,17 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Highlight.js with proper configuration
-    hljs.configure({
-        languages: ['bash', 'shell', 'javascript', 'html', 'css', 'json'],
-        ignoreUnescapedHTML: true
-    });
-    
-    // Highlight all code blocks
+    // Initialize Highlight.js
     hljs.highlightAll();
 
     // Theme Toggle
     const themeToggle = document.getElementById('theme-toggle');
     const html = document.documentElement;
-    const hljsTheme = document.getElementById('hljs-theme');
+    const hljsLight = document.getElementById('hljs-light');
+    const hljsDark = document.getElementById('hljs-dark');
     
     const savedTheme = localStorage.getItem('theme') || 'light';
     html.setAttribute('data-theme', savedTheme);
@@ -26,16 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateHljsTheme(theme) {
-        hljsTheme.href = theme === 'dark' 
-            ? 'src/css/github/github-dark.min.css' 
-            : 'src/css/github/github.min.css';
-        
-        // Re-highlight after theme change
-        setTimeout(() => {
-            document.querySelectorAll('pre code').forEach((block) => {
-                hljs.highlightElement(block);
-            });
-        }, 100);
+        if (theme === 'dark') {
+            hljsLight.disabled = true;
+            hljsDark.disabled = false;
+        } else {
+            hljsLight.disabled = false;
+            hljsDark.disabled = true;
+        }
     }
 
     // Mobile Menu Toggle
