@@ -1,5 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Highlight.js
+    // Initialize Highlight.js with proper configuration
+    hljs.configure({
+        languages: ['bash', 'shell', 'javascript', 'html', 'css', 'json'],
+        ignoreUnescapedHTML: true
+    });
+    
+    // Highlight all code blocks
     hljs.highlightAll();
 
     // Theme Toggle
@@ -21,8 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateHljsTheme(theme) {
         hljsTheme.href = theme === 'dark' 
-            ? '/css/github/github-dark.min.css' 
-            : '/css/github/github.min.css';
+            ? 'src/css/github/github-dark.min.css' 
+            : 'src/css/github/github.min.css';
+        
+        // Re-highlight after theme change
+        setTimeout(() => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        }, 100);
     }
 
     // Mobile Menu Toggle
