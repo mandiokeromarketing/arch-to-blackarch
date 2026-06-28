@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Ultimate Arch Linux to BlackArch Guide | Ch4120N</title>
-    <meta name="description" content="A comprehensive, step-by-step guide to installing Arch Linux and converting it into BlackArch Linux. From beginner to advanced penetration testing setup.">
-    <meta name="keywords" content="Arch Linux, BlackArch, Linux installation, penetration testing, cybersecurity, ethical hacking, Ch4120N, Linux guide">
+    <meta name="description" content="A comprehensive, step-by-step guide to installing Arch Linux and converting it into BlackArch Linux. From beginner to advanced penetration testing setup with detailed explanations.">
+    <meta name="keywords" content="Arch Linux, BlackArch, Linux installation, penetration testing, cybersecurity, ethical hacking, Ch4120N, Linux guide, Arch to BlackArch">
     <meta name="author" content="Ch4120N">
     <link rel="canonical" href="https://ch4120n.github.io/arch-to-blackarch/">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="The Ultimate Arch Linux to BlackArch Guide">
-    <meta property="og:description" content="A comprehensive, step-by-step guide to installing Arch Linux and converting it into BlackArch Linux.">
+    <meta property="og:description" content="A comprehensive, step-by-step guide to installing Arch Linux and converting it into BlackArch Linux with detailed explanations.">
     <meta property="og:url" content="https://ch4120n.github.io/arch-to-blackarch/">
     <meta property="og:image" content="img/logo.png">
     
@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link id="hljs-theme" rel="stylesheet" href="css/github/github.min.css">
     
-    <!-- Highlight.js (Using CDN for simplicity, can be replaced with local highlight.min.js) -->
+    <!-- Highlight.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
 
@@ -63,7 +63,7 @@
             </button>
             <a href="#" class="logo">
                 <img src="img/logo.png" alt="Logo" class="logo-img">
-                <span>arch-to-blackarch</span>
+                <span>Arch Linux to BlackArch</span>
             </a>
         </div>
         <div class="header-right">
@@ -150,247 +150,1110 @@
                     <div class="meta-info">
                         <span>Maintained by <strong>Ch4120N</strong></span>
                         <span>Last updated: 2024</span>
+                        <span>Reading time: ~45 minutes</span>
                     </div>
                 </header>
 
                 <section id="introduction">
                     <h2>Introduction: Why Arch to BlackArch?</h2>
                     <p><strong>BlackArch Linux</strong> is an elite penetration testing distribution built on top of Arch Linux, offering over 2,800 security tools. Instead of downloading the BlackArch ISO (which can be buggy or overwhelming), the <strong>recommended way</strong> by the BlackArch team is to install a minimal, stable Arch system and then convert it.</p>
-                    <p><strong>Benefits of this approach:</strong></p>
+                    
+                    <h3>Why This Approach?</h3>
+                    <p>Many beginners wonder why they should go through the trouble of installing Arch Linux manually when they could just download the BlackArch ISO directly. The answer lies in stability, control, and learning. When you install Arch Linux from scratch, you build a system that you completely understand. Every package, every configuration file, every service - you know exactly what's there and why.</p>
+                    
+                    <p>The BlackArch ISO, while convenient, comes with thousands of pre-installed tools that you may never use. This can lead to system bloat, longer update times, and potential conflicts between packages. By starting with a clean Arch installation, you maintain full control over what gets installed on your system.</p>
+                    
+                    <h3>Benefits of This Approach</h3>
                     <ul>
-                        <li><strong>Rock-solid base:</strong> You build a stable Arch system yourself.</li>
-                        <li><strong>Full control:</strong> You choose exactly which tools to install.</li>
-                        <li><strong>Lean system:</strong> No bloatware, only what you need.</li>
-                        <li><strong>Rolling release:</strong> Always get the latest tools via Arch's repositories.</li>
+                        <li><strong>Rock-solid base:</strong> You build a stable Arch system yourself, understanding every component and configuration decision.</li>
+                        <li><strong>Full control:</strong> You choose exactly which tools to install based on your specific needs and workflow.</li>
+                        <li><strong>Lean system:</strong> No bloatware, only what you need. This means faster boot times, less disk usage, and quicker updates.</li>
+                        <li><strong>Rolling release:</strong> Always get the latest tools via Arch's repositories, ensuring you have the most current security tools available.</li>
+                        <li><strong>Learning experience:</strong> You'll gain deep knowledge of Linux system administration, which is invaluable for any security professional.</li>
                     </ul>
+
+                    <div class="alert alert-note">
+                        <strong>Who is this guide for?</strong> This guide is designed for beginners who want to learn Linux system administration while building a professional penetration testing environment. No prior Linux experience is required, but basic computer literacy is assumed.
+                    </div>
                 </section>
 
                 <section id="prerequisites">
                     <h2>Important Prerequisites</h2>
+                    <p>Before we begin, it's crucial to understand the risks and requirements of this installation process. Installing an operating system involves partitioning your hard drive, which can result in data loss if done incorrectly.</p>
+                    
                     <div class="alert alert-warning">
                         <strong>Warning:</strong> I strongly recommend you install Arch Linux inside a Virtual Machine first. This way, you won't accidentally erase your personal files or mess up your main operating system. When you've successfully installed Arch and converted it to BlackArch in the VM at least twice, then you can confidently do it on a real computer.
                     </div>
+
+                    <h3>What You'll Need</h3>
+                    <ul>
+                        <li><strong>A computer or virtual machine:</strong> Any modern computer with at least 4GB RAM (8GB recommended) and 40GB free disk space.</li>
+                        <li><strong>Arch Linux ISO:</strong> Download from <a href="https://archlinux.org/download/" target="_blank">archlinux.org</a></li>
+                        <li><strong>USB drive (8GB+):</strong> If installing on real hardware, you'll need a USB drive to create bootable media.</li>
+                        <li><strong>Internet connection:</strong> Required for downloading packages during installation.</li>
+                        <li><strong>Time and patience:</strong> The installation process takes 1-2 hours for beginners. Don't rush it.</li>
+                    </ul>
+
+                    <h3>Understanding the Risks</h3>
+                    <p>Installing an operating system is a serious operation. If you're installing on real hardware (not a VM), there's a risk of data loss if you make mistakes during partitioning. Always backup your important files before proceeding. The partitioning step is where most beginners make mistakes, so pay special attention to that section.</p>
                 </section>
 
                 <section id="virtual-machine">
                     <h2>What is a Virtual Machine?</h2>
                     <p>A <strong>Virtual Machine (VM)</strong> is like a "computer inside your computer". It uses software (like VirtualBox or QEMU) to create a fake PC where you can install and run operating systems without affecting your real machine. Think of it as a safe sandbox for learning and experimenting.</p>
+                    
+                    <h3>How Virtual Machines Work</h3>
+                    <p>Virtual machines use a technology called "virtualization" to create isolated environments that behave like separate computers. The software that creates and manages these virtual machines is called a "hypervisor". There are two types:</p>
+                    <ul>
+                        <li><strong>Type 1 (Bare Metal):</strong> Runs directly on hardware (e.g., VMware ESXi, Proxmox). Used in enterprise environments.</li>
+                        <li><strong>Type 2 (Hosted):</strong> Runs as an application on your existing OS (e.g., VirtualBox, VMware Workstation). This is what we'll use.</li>
+                    </ul>
+
+                    <h3>Why Use a VM for This Guide?</h3>
+                    <p>Using a VM provides several advantages for learning:</p>
+                    <ul>
+                        <li><strong>Safety:</strong> If you make a mistake, you can simply delete the VM and start over. No data loss on your real computer.</li>
+                        <li><strong>Snapshots:</strong> You can save the state of your VM at any point and restore it later if something goes wrong.</li>
+                        <li><strong>Isolation:</strong> The VM is completely isolated from your host system, so any security tools you run won't affect your main computer.</li>
+                        <li><strong>Portability:</strong> You can export your VM and run it on any computer with the same virtualization software.</li>
+                    </ul>
                 </section>
 
                 <section id="step0">
                     <h2>Step 0: Setting Up a Virtual Machine</h2>
-                    <p>If you're installing on real hardware, skip this step. Otherwise, follow these instructions:</p>
+                    <p>If you're installing on real hardware, skip this step. Otherwise, follow these instructions to create a safe environment for learning.</p>
+                    
                     <h3>1. Choose Your VM Software</h3>
+                    <p>There are several virtualization options available, each with different strengths:</p>
                     <ul>
-                        <li><strong>VirtualBox</strong> (free, easy) - <a href="https://www.virtualbox.org/" target="_blank">Download</a></li>
-                        <li><strong>QEMU/KVM</strong> (faster, more advanced) - usually preinstalled on Linux.</li>
+                        <li><strong>VirtualBox</strong> (free, easy) - <a href="https://www.virtualbox.org/" target="_blank">Download</a>. This is the most beginner-friendly option with a graphical interface. It's free and works on Windows, Mac, and Linux.</li>
+                        <li><strong>QEMU/KVM</strong> (faster, more advanced) - usually preinstalled on Linux. This offers better performance but has a steeper learning curve. It's the native virtualization solution for Linux.</li>
+                        <li><strong>VMware Workstation Player</strong> (free for personal use) - Another popular option with good performance and features.</li>
                     </ul>
+
                     <h3>2. Create a New VM</h3>
+                    <p>For this guide, we'll use VirtualBox as it's the most accessible for beginners. Here are the recommended settings:</p>
                     <ul>
-                        <li><strong>Name:</strong> Arch Linux</li>
-                        <li><strong>Type:</strong> Linux / Arch Linux (or Other Linux 64-bit)</li>
-                        <li><strong>Memory (RAM):</strong> At least <strong>4 GB</strong> (8 GB recommended)</li>
-                        <li><strong>Hard disk:</strong> <strong>40 GB</strong> or more (dynamic allocation)</li>
-                        <li><strong>Network:</strong> NAT or Bridged</li>
+                        <li><strong>Name:</strong> Arch Linux (we'll convert to BlackArch later)</li>
+                        <li><strong>Type:</strong> Linux</li>
+                        <li><strong>Version:</strong> Arch Linux (or Other Linux 64-bit)</li>
+                        <li><strong>Memory (RAM):</strong> At least <strong>4 GB</strong> (8 GB recommended for heavy tools). More RAM means better performance, especially when running multiple security tools.</li>
+                        <li><strong>Hard disk:</strong> <strong>40 GB</strong> or more (dynamic allocation). Dynamic allocation means the virtual disk only uses as much space as needed, up to the maximum you specify.</li>
+                        <li><strong>Network:</strong> NAT or Bridged. NAT is simpler and works out of the box. Bridged makes the VM appear as a separate device on your network.</li>
                     </ul>
+
                     <div class="alert alert-tip">
-                        <strong>Tip:</strong> In VirtualBox, go to Settings > Storage and attach the Arch ISO file to the optical drive. Then boot the VM.
+                        <strong>Tip:</strong> In VirtualBox, go to Settings > Storage and attach the Arch ISO file to the optical drive. Then boot the VM. You can also enable 3D acceleration in the Display settings for better performance if you plan to install a desktop environment later.
                     </div>
+
+                    <h3>3. VM Settings Explained</h3>
+                    <p>Let's understand why these settings matter:</p>
+                    <ul>
+                        <li><strong>RAM:</strong> BlackArch tools can be memory-intensive. 4GB is the minimum for basic operation, but 8GB will give you room to run multiple tools simultaneously.</li>
+                        <li><strong>Disk Space:</strong> The base Arch installation takes about 2-3GB. BlackArch tools can add 10-20GB depending on what you install. 40GB gives you plenty of room to grow.</li>
+                        <li><strong>Network:</strong> NAT is recommended for beginners because it automatically handles network configuration. The VM shares your host's internet connection without needing special setup.</li>
+                    </ul>
                 </section>
 
                 <section id="step1">
                     <h2>Step 1: Boot from the Arch Linux ISO</h2>
+                    <p>This is where we actually start the installation process. The Arch Linux ISO is a live environment that lets you test Arch without installing it, and also provides the tools needed for installation.</p>
+                    
+                    <h3>Understanding the Boot Process</h3>
+                    <p>When you boot from the Arch ISO, you're loading a minimal Linux environment into RAM. This environment contains all the tools needed to partition disks, install packages, and configure your new system. It's completely separate from any operating system already installed on your computer.</p>
+
+                    <h3>Step-by-Step Instructions</h3>
                     <ol>
-                        <li>Download the latest Arch ISO from <a href="https://archlinux.org/download/" target="_blank">archlinux.org</a>.</li>
-                        <li>Burn it to a USB (or attach to VM) and boot from it.</li>
-                        <li>Select <strong>"Arch Linux install medium (x86_64, UEFI)"</strong> (or BIOS).</li>
-                        <li>Once booted, you'll be at a root shell prompt (<code>root@archiso ~ #</code>).</li>
+                        <li><strong>Download the ISO:</strong> Get the latest Arch ISO from <a href="https://archlinux.org/download/" target="_blank">archlinux.org</a>. The file is typically around 800MB. Verify the checksum if you want to ensure the download wasn't corrupted.</li>
+                        <li><strong>Create bootable media:</strong> If installing on real hardware, burn the ISO to a USB drive using a tool like Rufus (Windows), Etcher (cross-platform), or dd (Linux). For VMs, simply attach the ISO file to the virtual optical drive.</li>
+                        <li><strong>Boot from the media:</strong> Restart your computer and enter the BIOS/UEFI settings (usually by pressing F2, F12, or Del during startup). Change the boot order to prioritize your USB drive or optical drive. For VMs, just start the VM.</li>
+                        <li><strong>Select boot option:</strong> You'll see a menu. Select <strong>"Arch Linux install medium (x86_64, UEFI)"</strong> for modern systems, or the BIOS option for older systems. Most computers from the last 10 years use UEFI.</li>
+                        <li><strong>Wait for boot:</strong> The system will load into a command-line interface. You'll see a root shell prompt (<code>root@archiso ~ #</code>). This means you're logged in as the root user in the live environment.</li>
                     </ol>
-                    <p><strong>Pro tip:</strong> Change the keyboard layout if needed with <code>loadkeys &lt;layout&gt;</code> (e.g., <code>loadkeys fr</code> for French). The default is US.</p>
+
+                    <div class="alert alert-note">
+                        <strong>Pro tip:</strong> Change the keyboard layout if needed with <code>loadkeys &lt;layout&gt;</code> (e.g., <code>loadkeys fr</code> for French, <code>loadkeys de</code> for German). The default is US English. This is important because if your keyboard layout is wrong, you'll type the wrong characters when entering commands and passwords.
+                    </div>
+
+                    <h3>Troubleshooting Boot Issues</h3>
+                    <p>If you can't boot from the ISO:</p>
+                    <ul>
+                        <li>Check that Secure Boot is disabled in your BIOS/UEFI settings. Arch Linux doesn't support Secure Boot by default.</li>
+                        <li>Ensure you're using a 64-bit version if your computer supports it.</li>
+                        <li>Try a different USB port or USB drive if the media isn't being detected.</li>
+                        <li>For VMs, make sure the ISO is properly attached to the virtual optical drive.</li>
+                    </ul>
                 </section>
 
                 <section id="step2">
                     <h2>Step 2: Connect to the Internet</h2>
-                    <p>You <strong>must</strong> have an internet connection to download packages.</p>
-                    <h3>Wired Ethernet</h3>
-                    <p>Usually works automatically. Test with:</p>
+                    <p>You <strong>must</strong> have an internet connection to download packages during installation. The Arch installation process downloads everything from the internet, so there's no offline installation option.</p>
+                    
+                    <h3>Why Internet is Required</h3>
+                    <p>Unlike some other Linux distributions that include all necessary packages on the installation media, Arch Linux uses a "netinstall" approach. The ISO only contains the minimal tools needed to set up your system and connect to the internet. All actual packages are downloaded from Arch's repositories during installation. This keeps the ISO small and ensures you always get the latest packages.</p>
+
+                    <h3>Wired Ethernet Connection</h3>
+                    <p>If you're using a wired connection (Ethernet cable), it should work automatically in most cases. The live environment includes drivers for most network cards. To test your connection:</p>
                     <pre><code class="language-bash">ping -c 3 archlinux.org</code></pre>
-                    <h3>WiFi</h3>
-                    <p>Use the interactive <code>iwctl</code> tool:</p>
-                    <pre><code class="language-bash">iwctl
-# Inside the iwctl prompt:
-device list                  # see your wireless device (e.g., wlan0)
+                    <p>This command sends 3 packets to archlinux.org and waits for responses. If you see replies, your internet is working. If not, check your cable connection or try a different network port.</p>
+
+                    <h3>WiFi Connection</h3>
+                    <p>For wireless connections, you'll need to use the <code>iwctl</code> tool, which is part of the iwd (iNet Wireless Daemon) package included in the Arch ISO. Here's the detailed process:</p>
+                    <pre><code class="language-bash">iwctl</code></pre>
+                    <p>This opens the interactive iwctl prompt. From here, you can manage wireless connections:</p>
+                    <pre><code class="language-bash"># List available wireless devices
+device list
+
+# Scan for networks (replace wlan0 with your device name)
 station wlan0 scan
-station wlan0 get-networks   # list available networks
-station wlan0 connect "SSID" # replace SSID with your network name
+
+# List available networks
+station wlan0 get-networks
+
+# Connect to a network (replace SSID with your network name)
+station wlan0 connect "SSID"
+
+# You'll be prompted to enter your WiFi password
+# After connecting, exit iwctl
 exit</code></pre>
+
+                    <h3>Verifying Your Connection</h3>
+                    <p>After connecting, always verify your internet works:</p>
+                    <pre><code class="language-bash">ping -c 3 archlinux.org</code></pre>
+                    <p>If you get responses, you're ready to proceed. If not, double-check your network credentials and signal strength.</p>
+
+                    <div class="alert alert-warning">
+                        <strong>Important:</strong> If you're behind a captive portal (like a hotel or coffee shop WiFi that requires login through a web browser), you won't be able to connect during installation. Use a different network or tether from your phone.
+                    </div>
                 </section>
 
                 <section id="step3">
                     <h2>Step 3: Update the System Clock</h2>
-                    <p>Ensure your system clock is accurate to prevent package signature errors:</p>
-                    <pre><code class="language-bash">timedatectl set-ntp true
-timedatectl status</code></pre>
+                    <p>Before proceeding with the installation, we need to ensure the system clock is accurate. This is crucial for package verification and SSL certificate validation.</p>
+                    
+                    <h3>Why System Clock Matters</h3>
+                    <p>Arch Linux uses cryptographic signatures to verify that packages haven't been tampered with. These signatures include timestamps, and if your system clock is significantly wrong, the verification will fail. Additionally, many internet services (including package repositories) use SSL/TLS encryption, which also relies on accurate time for certificate validation.</p>
+
+                    <h3>Enabling NTP</h3>
+                    <p>NTP (Network Time Protocol) automatically synchronizes your clock with internet time servers. Enable it with:</p>
+                    <pre><code class="language-bash">timedatectl set-ntp true</code></pre>
+                    <p>This command tells systemd (the init system used by Arch) to enable and start the NTP service. The clock will automatically sync with internet time servers.</p>
+
+                    <h3>Verifying the Clock</h3>
+                    <p>Check that NTP is working correctly:</p>
+                    <pre><code class="language-bash">timedatectl status</code></pre>
+                    <p>Look for "NTP service: active" and "System clock synchronized: yes" in the output. If you see these, your clock is accurate and you can proceed.</p>
+
+                    <div class="alert alert-note">
+                        <strong>Note:</strong> If you're in a VM and the clock seems wrong, it's usually because the VM is inheriting the host's clock. This is normal and usually not a problem. The NTP service will correct any small discrepancies.
+                    </div>
                 </section>
 
                 <section id="step4">
                     <h2>Step 4: Partition the Disk</h2>
-                    <p>Identify your disk:</p>
+                    <p>This is the most critical step in the installation process. Partitioning divides your hard drive into separate sections, each serving a different purpose. Getting this wrong can result in data loss, so pay close attention.</p>
+                    
+                    <h3>Understanding Partitions</h3>
+                    <p>A partition is a logical division of a hard disk. Think of it like dividing a large room into smaller rooms, each with a specific purpose. For Arch Linux, we typically need:</p>
+                    <ul>
+                        <li><strong>EFI System Partition (ESP):</strong> Required for UEFI systems. Contains the bootloader files. Must be formatted as FAT32.</li>
+                        <li><strong>Swap partition:</strong> Used as virtual memory when RAM is full. Also used for hibernation. Size should match your RAM if you plan to hibernate, or 2-4GB otherwise.</li>
+                        <li><strong>Root partition (/):</strong> Contains the operating system, applications, and user data. This is where most of your disk space goes.</li>
+                    </ul>
+
+                    <h3>Identifying Your Disk</h3>
+                    <p>First, we need to identify which disk we're working with:</p>
                     <pre><code class="language-bash">lsblk</code></pre>
-                    <p>Your main disk might be <code>/dev/sda</code> or <code>/dev/nvme0n1</code>. We'll refer to it as <code>/dev/sdX</code>.</p>
+                    <p>This command lists all block devices (disks and partitions). Look for your main disk - it's usually the largest one. Common names:</p>
+                    <ul>
+                        <li><code>/dev/sda</code> - SATA/IDE drives</li>
+                        <li><code>/dev/nvme0n1</code> - NVMe SSDs</li>
+                        <li><code>/dev/vda</code> - Virtual disks in VMs</li>
+                    </ul>
+                    <p>For this guide, we'll use <code>/dev/sda</code> as an example. Replace it with your actual disk name.</p>
+
                     <div class="alert alert-note">
-                        <strong>Check UEFI:</strong> Run <code>ls /sys/firmware/efi/efivars</code>. If it exists, you're in UEFI mode.
+                        <strong>Check UEFI vs BIOS:</strong> Run <code>ls /sys/firmware/efi/efivars</code>. If the directory exists and contains files, you're in UEFI mode. If it doesn't exist or is empty, you're in BIOS/Legacy mode. This determines which partitioning scheme you need.
                     </div>
-                    <h3>Using fdisk</h3>
+
+                    <h3>Partitioning with fdisk</h3>
+                    <p>We'll use <code>fdisk</code>, a command-line partitioning tool. It's interactive, meaning you type commands and see results immediately:</p>
                     <pre><code class="language-bash">fdisk /dev/sda</code></pre>
-                    <p><strong>Inside fdisk (for UEFI GPT):</strong></p>
+                    <p>This opens fdisk with your disk. You'll see a command prompt. Here's what to do for UEFI systems:</p>
                     <ol>
-                        <li>Type <code>g</code> for GPT.</li>
-                        <li><strong>EFI:</strong> <code>n</code> -> <code>1</code> -> <code>Enter</code> -> <code>+512M</code> -> <code>t</code> -> <code>1</code></li>
-                        <li><strong>Swap:</strong> <code>n</code> -> <code>2</code> -> <code>Enter</code> -> <code>+4G</code> -> <code>t</code> -> <code>2</code> -> <code>19</code></li>
-                        <li><strong>Root:</strong> <code>n</code> -> <code>3</code> -> <code>Enter</code> -> <code>Enter</code></li>
-                        <li>Write: <code>w</code></li>
+                        <li><strong>Create GPT partition table:</strong> Type <code>g</code> and press Enter. GPT (GUID Partition Table) is the modern standard, required for UEFI and supports disks larger than 2TB.</li>
+                        <li><strong>Create EFI partition:</strong> 
+                            <ul>
+                                <li>Type <code>n</code> (new partition)</li>
+                                <li>Press Enter for default partition number (1)</li>
+                                <li>Press Enter for default first sector</li>
+                                <li>Type <code>+512M</code> for size (512 megabytes)</li>
+                                <li>Type <code>t</code> (change type)</li>
+                                <li>Type <code>1</code> (EFI System)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create swap partition:</strong>
+                            <ul>
+                                <li>Type <code>n</code></li>
+                                <li>Press Enter for partition number (2)</li>
+                                <li>Press Enter for first sector</li>
+                                <li>Type <code>+4G</code> for size (4 gigabytes)</li>
+                                <li>Type <code>t</code></li>
+                                <li>Type <code>2</code> (select partition 2)</li>
+                                <li>Type <code>19</code> (Linux swap)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create root partition:</strong>
+                            <ul>
+                                <li>Type <code>n</code></li>
+                                <li>Press Enter for partition number (3)</li>
+                                <li>Press Enter for first sector</li>
+                                <li>Press Enter to use all remaining space</li>
+                                <li>Type is already "Linux filesystem" by default</li>
+                            </ul>
+                        </li>
+                        <li><strong>Write changes:</strong> Type <code>w</code> to write the partition table to disk. This is when the actual changes are made.</li>
                     </ol>
+
+                    <div class="alert alert-warning">
+                        <strong>Warning:</strong> Once you type <code>w</code>, the partition table is written and any existing data on the disk will be lost. Make sure you're working on the correct disk!
+                    </div>
+
+                    <h3>Verifying Partitions</h3>
+                    <p>After writing, verify your partitions were created correctly:</p>
+                    <pre><code class="language-bash">lsblk</code></pre>
+                    <p>You should see <code>/dev/sda1</code> (512M), <code>/dev/sda2</code> (4G), and <code>/dev/sda3</code> (remaining space).</p>
                 </section>
 
                 <section id="step5">
                     <h2>Step 5: Format the Partitions</h2>
-                    <pre><code class="language-bash">mkfs.fat -F32 /dev/sda1
+                    <p>Now that we've created partitions, we need to format them with file systems. Formatting prepares the partitions to store data in a way that the operating system can understand.</p>
+                    
+                    <h3>Understanding File Systems</h3>
+                    <p>A file system is the method an operating system uses to organize and store data on a disk. Different file systems have different characteristics:</p>
+                    <ul>
+                        <li><strong>FAT32:</strong> Required for EFI partitions. Simple, widely compatible, but limited to files smaller than 4GB.</li>
+                        <li><strong>ext4:</strong> The standard Linux file system. Reliable, fast, and supports large files. Good for most use cases.</li>
+                        <li><strong>btrfs:</strong> Advanced file system with features like snapshots and compression. More complex but powerful.</li>
+                        <li><strong>xfs:</strong> Good for large files and high performance. Often used for media storage.</li>
+                    </ul>
+                    <p>For this guide, we'll use ext4 for the root partition as it's the most straightforward and well-supported option.</p>
+
+                    <h3>Formatting Commands</h3>
+                    <p>Format each partition with the appropriate file system:</p>
+                    <pre><code class="language-bash"># Format EFI partition as FAT32
+mkfs.fat -F32 /dev/sda1
+
+# Create swap space
 mkswap /dev/sda2
+
+# Enable swap (temporary, for installation)
 swapon /dev/sda2
+
+# Format root partition as ext4
 mkfs.ext4 /dev/sda3</code></pre>
+
+                    <h3>What Each Command Does</h3>
+                    <ul>
+                        <li><code>mkfs.fat -F32 /dev/sda1</code>: Creates a FAT32 file system on the first partition. The <code>-F32</code> flag specifies FAT32 format. This partition will store bootloader files.</li>
+                        <li><code>mkswap /dev/sda2</code>: Prepares the second partition for use as swap space. This doesn't create a traditional file system, but rather marks the partition for virtual memory use.</li>
+                        <li><code>swapon /dev/sda2</code>: Activates the swap partition. This is temporary for the installation process. We'll make it permanent later through fstab.</li>
+                        <li><code>mkfs.ext4 /dev/sda3</code>: Creates an ext4 file system on the third partition. This is where your operating system and files will live.</li>
+                    </ul>
+
+                    <div class="alert alert-tip">
+                        <strong>Tip:</strong> If you want a separate /home partition (for user files), you can create an additional partition and format it similarly. This makes it easier to reinstall the OS without losing personal files. However, for simplicity, we're keeping everything on one root partition.
+                    </div>
                 </section>
 
                 <section id="step6">
                     <h2>Step 6: Mount the File Systems</h2>
-                    <pre><code class="language-bash">mount /dev/sda3 /mnt
+                    <p>Mounting is the process of making a file system accessible at a specific location (called a mount point) in the directory tree. We need to mount our partitions so the installer can write files to them.</p>
+                    
+                    <h3>Understanding Mount Points</h3>
+                    <p>In Linux, there's no concept of "drives" like C: or D: in Windows. Instead, all file systems are connected in a single directory tree starting at / (root). Mounting attaches a file system to a specific directory in this tree.</p>
+                    <p>For installation, we use <code>/mnt</code> as the temporary root. We'll mount our root partition there, then create subdirectories for other partitions.</p>
+
+                    <h3>Mounting Commands</h3>
+                    <pre><code class="language-bash"># Mount the root partition to /mnt
+mount /dev/sda3 /mnt
+
+# Create the boot directory
 mkdir -p /mnt/boot
+
+# Mount the EFI partition to /mnt/boot
 mount /dev/sda1 /mnt/boot</code></pre>
+
+                    <h3>What This Achieves</h3>
+                    <ul>
+                        <li><code>mount /dev/sda3 /mnt</code>: Attaches the root partition to /mnt. Now when we write to /mnt, we're actually writing to the root partition.</li>
+                        <li><code>mkdir -p /mnt/boot</code>: Creates the boot directory inside our mounted root. The <code>-p</code> flag means "create parent directories if needed" and "don't error if directory exists".</li>
+                        <li><code>mount /dev/sda1 /mnt/boot</code>: Attaches the EFI partition to /mnt/boot. Bootloader files will be stored here.</li>
+                    </ul>
+
+                    <div class="alert alert-note">
+                        <strong>Note:</strong> If you created a separate /home partition, you would mount it similarly: <code>mkdir -p /mnt/home && mount /dev/sda4 /mnt/home</code> (replace sda4 with your home partition).
+                    </div>
+
+                    <h3>Verifying Mounts</h3>
+                    <p>Check that everything is mounted correctly:</p>
+                    <pre><code class="language-bash">lsblk</code></pre>
+                    <p>You should see your partitions with MOUNTPOINTS showing /mnt, /mnt/boot, etc.</p>
                 </section>
 
                 <section id="step7">
                     <h2>Step 7: Install the Base System</h2>
+                    <p>Now we're ready to install the actual Arch Linux system. We'll use <code>pacstrap</code>, a script that installs packages to a specified root directory.</p>
+                    
+                    <h3>Understanding pacstrap</h3>
+                    <p><code>pacstrap</code> is a convenience script included in the Arch ISO. It uses pacman (Arch's package manager) to install packages to a specified directory (our mounted root at /mnt). This is how we populate our new system with the base operating system files.</p>
+
+                    <h3>Installation Command</h3>
                     <pre><code class="language-bash">pacstrap /mnt base linux linux-firmware base-devel vim nano networkmanager</code></pre>
+
+                    <h3>Package Breakdown</h3>
+                    <p>Let's understand what each package does:</p>
+                    <ul>
+                        <li><strong>base:</strong> The minimal Arch Linux system. Includes essential utilities like bash, coreutils, findutils, grep, sed, and other fundamental tools. This is the absolute minimum needed for a working system.</li>
+                        <li><strong>linux:</strong> The Linux kernel. This is the core of the operating system that manages hardware, memory, processes, and provides the interface between software and hardware.</li>
+                        <li><strong>linux-firmware:</strong> Firmware files for various hardware devices. Includes drivers for WiFi cards, graphics cards, network adapters, and other hardware. Without this, some hardware might not work.</li>
+                        <li><strong>base-devel:</strong> Development tools including gcc (C compiler), make, pkg-config, and other tools needed to compile software from source. Many BlackArch tools require compilation, so this is essential.</li>
+                        <li><strong>vim:</strong> A powerful text editor. While it has a learning curve, it's available on virtually every Linux system and is invaluable for editing configuration files.</li>
+                        <li><strong>nano:</strong> A simpler text editor that's easier for beginners. We'll use this for most editing tasks in this guide.</li>
+                        <li><strong>networkmanager:</strong> A service that manages network connections. It handles WiFi, Ethernet, VPNs, and other network types. We'll enable it later to ensure networking works after reboot.</li>
+                    </ul>
+
+                    <div class="alert alert-tip">
+                        <strong>Tip:</strong> The installation will take several minutes and download around 500MB-1GB of packages. Make sure your internet connection is stable. If it fails, you can run the command again - pacstrap is idempotent (safe to run multiple times).
+                    </div>
+
+                    <h3>What Happens During Installation</h3>
+                    <p>During this process, pacstrap will:</p>
+                    <ol>
+                        <li>Download all packages and their dependencies from Arch repositories</li>
+                        <li>Verify package signatures to ensure they haven't been tampered with</li>
+                        <li>Extract and install packages to /mnt</li>
+                        <li>Run post-installation scripts for each package</li>
+                        <li>Generate initial configuration files</li>
+                    </ol>
+                    <p>Once complete, you'll have a minimal but functional Arch Linux installation at /mnt.</p>
                 </section>
 
                 <section id="step8">
-                    <h2>Step 8: Generate the Filesystem Table</h2>
+                    <h2>Step 8: Generate the Filesystem Table (fstab)</h2>
+                    <p>The fstab (filesystem table) is a configuration file that tells the system which partitions to mount at boot time and where to mount them. Without this file, your system won't know how to access its own partitions after reboot.</p>
+                    
+                    <h3>Understanding fstab</h3>
+                    <p>The fstab file is located at <code>/etc/fstab</code> in your installed system. Each line in this file specifies:</p>
+                    <ul>
+                        <li><strong>Device:</strong> Which partition to mount (identified by UUID, label, or device path)</li>
+                        <li><strong>Mount point:</strong> Where to mount it in the directory tree</li>
+                        <li><strong>File system type:</strong> ext4, fat32, swap, etc.</li>
+                        <li><strong>Options:</strong> Mount options like read/write permissions</li>
+                        <li><strong>Dump:</strong> Backup flag (usually 0)</li>
+                        <li><strong>Pass:</strong> File system check order (0 = skip, 1 = root, 2 = others)</li>
+                    </ul>
+
+                    <h3>Generating fstab</h3>
                     <pre><code class="language-bash">genfstab -U /mnt >> /mnt/etc/fstab</code></pre>
+                    <p>This command uses <code>genfstab</code> (generate filesystem table) to automatically create the fstab file based on currently mounted partitions. The <code>-U</code> flag uses UUIDs (Universally Unique Identifiers) to identify partitions, which is more reliable than device names that can change.</p>
+
+                    <h3>Verifying fstab</h3>
+                    <p>Always check the generated file to ensure it's correct:</p>
+                    <pre><code class="language-bash">cat /mnt/etc/fstab</code></pre>
+                    <p>You should see entries for your root partition, EFI partition, and swap. Each entry should have a UUID, mount point, file system type, and options. If something looks wrong, you can edit the file manually with nano before proceeding.</p>
+
+                    <div class="alert alert-warning">
+                        <strong>Warning:</strong> If fstab is incorrect, your system won't boot properly. Double-check that all partitions are listed with correct mount points. The root partition should be mounted at /, EFI at /boot, and swap should have "swap" as the mount point.
+                    </div>
                 </section>
 
                 <section id="step9">
                     <h2>Step 9: Chroot into the New System</h2>
+                    <p>Chroot (change root) is a operation that changes the apparent root directory for the current running process and its children. This lets us work inside our new installation as if we had booted into it.</p>
+                    
+                    <h3>Understanding Chroot</h3>
+                    <p>When we chroot into /mnt, our perspective changes. Commands we run now operate on the files in /mnt as if they were at /. This is necessary because we need to configure the new system (set timezone, locale, install bootloader, etc.) from within its own environment.</p>
+                    <p>Think of it like this: we've been working on a house from the outside. Now we're going inside to arrange the furniture and set up the utilities.</p>
+
+                    <h3>Chroot Command</h3>
                     <pre><code class="language-bash">arch-chroot /mnt</code></pre>
+                    <p><code>arch-chroot</code> is a wrapper around the standard chroot command that sets up additional things needed for Arch Linux, like mounting /proc, /sys, and /dev inside the chroot environment.</p>
+
+                    <h3>What Changes After Chroot</h3>
+                    <ul>
+                        <li>Your prompt changes from <code>root@archiso ~ #</code> to <code>root@archiso / #</code> (note the / instead of ~)</li>
+                        <li>Commands now affect the installed system, not the live ISO</li>
+                        <li>You can install packages, edit configuration files, and set up services</li>
+                        <li>The installed system's /etc, /usr, /var directories are now accessible</li>
+                    </ul>
+
+                    <div class="alert alert-note">
+                        <strong>Note:</strong> You're still technically running the kernel from the live ISO. The chroot only changes the user-space environment. This is fine for configuration purposes.
+                    </div>
+
+                    <h3>Exiting Chroot</h3>
+                    <p>When you're done configuring (after all the following steps), you can exit the chroot by typing <code>exit</code> or pressing Ctrl+D. This returns you to the live ISO environment.</p>
                 </section>
 
                 <section id="step10">
                     <h2>Step 10: Set the Time Zone</h2>
-                    <pre><code class="language-bash">ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
-hwclock --systohc</code></pre>
+                    <p>Setting the correct timezone ensures that your system clock displays the right time and that scheduled tasks run at the expected times.</p>
+                    
+                    <h3>Understanding Timezones in Linux</h3>
+                    <p>Linux stores time internally as UTC (Coordinated Universal Time) and converts it to your local timezone for display. The timezone is set by creating a symbolic link from <code>/etc/localtime</code> to the appropriate timezone file in <code>/usr/share/zoneinfo/</code>.</p>
+
+                    <h3>Finding Your Timezone</h3>
+                    <p>Timezones are organized by region and city. To see available timezones:</p>
+                    <pre><code class="language-bash">ls /usr/share/zoneinfo/</code></pre>
+                    <p>This shows regions like America, Europe, Asia, etc. Each region contains cities. For example, <code>America/New_York</code>, <code>Europe/London</code>, <code>Asia/Tokyo</code>.</p>
+
+                    <h3>Setting the Timezone</h3>
+                    <pre><code class="language-bash"># Example for New York (replace with your timezone)
+ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime</code></pre>
+                    <p>The <code>ln -sf</code> command creates a symbolic link (<code>-s</code>) and forces overwriting if the file exists (<code>-f</code>). This tells the system to use the specified timezone.</p>
+
+                    <h3>Synchronizing Hardware Clock</h3>
+                    <pre><code class="language-bash">hwclock --systohc</code></pre>
+                    <p>This command writes the current system time to the hardware clock (the clock on your motherboard that keeps time even when the computer is off). The <code>--systohc</code> flag means "system time to hardware clock". This ensures your hardware clock is set to UTC, which is the standard for Linux systems.</p>
+
+                    <div class="alert alert-tip">
+                        <strong>Tip:</strong> If you're dual-booting with Windows, you might want to set the hardware clock to local time instead of UTC to avoid time conflicts. Use <code>hwclock --systohc --localtime</code> in that case. However, this is not recommended as it can cause issues with daylight saving time.
+                    </div>
                 </section>
 
                 <section id="step11">
                     <h2>Step 11: Set the Locale</h2>
-                    <pre><code class="language-bash">nano /etc/locale.gen # Uncomment en_US.UTF-8 UTF-8
-locale-gen
-echo "LANG=en_US.UTF-8" > /etc/locale.conf</code></pre>
+                    <p>Locale settings determine the language, character encoding, and formatting conventions (like date and number formats) used by your system.</p>
+                    
+                    <h3>Understanding Locales</h3>
+                    <p>A locale is a set of parameters that defines the user's language, region, and any special variant preferences. It affects:</p>
+                    <ul>
+                        <li>Language of system messages and applications</li>
+                        <li>Character encoding (UTF-8 supports all languages and special characters)</li>
+                        <li>Date and time formatting</li>
+                        <li>Number formatting (decimal separators, thousands separators)</li>
+                        <li>Sorting order</li>
+                    </ul>
+
+                    <h3>Editing locale.gen</h3>
+                    <p>The file <code>/etc/locale.gen</code> contains a list of all available locales, most of which are commented out (disabled). We need to uncomment the ones we want to use:</p>
+                    <pre><code class="language-bash">nano /etc/locale.gen</code></pre>
+                    <p>In nano, use Ctrl+W to search for your locale. Common choices:</p>
+                    <ul>
+                        <li><code>en_US.UTF-8 UTF-8</code> - US English with UTF-8 encoding (recommended for most users)</li>
+                        <li><code>en_GB.UTF-8 UTF-8</code> - British English</li>
+                        <li><code>fr_FR.UTF-8 UTF-8</code> - French</li>
+                        <li><code>de_DE.UTF-8 UTF-8</code> - German</li>
+                    </ul>
+                    <p>Remove the <code>#</code> at the beginning of the line to uncomment it. Save with Ctrl+O, then Enter, then exit with Ctrl+X.</p>
+
+                    <h3>Generating Locales</h3>
+                    <pre><code class="language-bash">locale-gen</code></pre>
+                    <p>This command reads <code>/etc/locale.gen</code> and generates the binary locale files for all uncommented entries. This makes the locales available for use.</p>
+
+                    <h3>Setting the Default Locale</h3>
+                    <pre><code class="language-bash">echo "LANG=en_US.UTF-8" > /etc/locale.conf</code></pre>
+                    <p>This creates the <code>/etc/locale.conf</code> file with the LANG variable set to your preferred locale. This file is read by the system at boot to set the default locale for all users.</p>
+
+                    <div class="alert alert-note">
+                        <strong>Note:</strong> Even if you set a non-English locale, it's recommended to keep en_US.UTF-8 uncommented in locale.gen as a fallback. Some applications may not have translations for your language and will fall back to English.
+                    </div>
                 </section>
 
                 <section id="step12">
                     <h2>Step 12: Set the Keyboard Layout</h2>
+                    <p>If you don't use a US English keyboard, you need to set the correct layout so that keys produce the expected characters.</p>
+                    
+                    <h3>Understanding Keyboard Layouts</h3>
+                    <p>Keyboard layouts map physical keys to characters. Different countries use different layouts (QWERTY, AZERTY, QWERTZ, etc.). The layout needs to be set for both the console (text mode) and the graphical interface.</p>
+
+                    <h3>Setting Console Keyboard Layout</h3>
                     <pre><code class="language-bash">echo "KEYMAP=us" > /etc/vconsole.conf</code></pre>
+                    <p>This creates <code>/etc/vconsole.conf</code> with the KEYMAP variable. Common values:</p>
+                    <ul>
+                        <li><code>us</code> - US English (QWERTY)</li>
+                        <li><code>fr</code> - French (AZERTY)</li>
+                        <li><code>de</code> - German (QWERTZ)</li>
+                        <li><code>gb</code> - UK English</li>
+                        <li><code>es</code> - Spanish</li>
+                    </ul>
+                    <p>To see all available layouts: <code>ls /usr/share/kbd/keymaps/</code></p>
+
+                    <div class="alert alert-tip">
+                        <strong>Tip:</strong> This setting only affects the console (text mode). If you install a desktop environment later, you'll need to set the keyboard layout in the desktop settings as well.
+                    </div>
                 </section>
 
                 <section id="step13">
                     <h2>Step 13: Set the Hostname</h2>
-                    <pre><code class="language-bash">echo "blackarch-box" > /etc/hostname
-nano /etc/hosts</code></pre>
-                    <p>Add to <code>/etc/hosts</code>:</p>
+                    <p>The hostname is the name of your computer on the network. It's used to identify your machine to other devices and in various system logs.</p>
+                    
+                    <h3>Understanding Hostnames</h3>
+                    <p>A hostname should be:</p>
+                    <ul>
+                        <li>Unique on your network</li>
+                        <li>1-63 characters long</li>
+                        <li>Contain only letters, numbers, and hyphens</li>
+                        <li>Not start or end with a hyphen</li>
+                        <li>All lowercase (convention)</li>
+                    </ul>
+                    <p>Examples: <code>blackarch-box</code>, <code>my-laptop</code>, <code>pentest-station</code></p>
+
+                    <h3>Setting the Hostname</h3>
+                    <pre><code class="language-bash">echo "blackarch-box" > /etc/hostname</code></pre>
+                    <p>This creates the <code>/etc/hostname</code> file with your chosen hostname. The system reads this file at boot to set the machine's name.</p>
+
+                    <h3>Configuring /etc/hosts</h3>
+                    <p>The <code>/etc/hosts</code> file maps hostnames to IP addresses. We need to add our hostname to this file so the system can resolve it:</p>
+                    <pre><code class="language-bash">nano /etc/hosts</code></pre>
+                    <p>Add these lines:</p>
                     <pre><code>127.0.0.1   localhost
 ::1         localhost
 127.0.1.1   blackarch-box.localdomain   blackarch-box</code></pre>
+                    <p>Explanation:</p>
+                    <ul>
+                        <li><code>127.0.0.1 localhost</code> - IPv4 loopback address (always refers to this machine)</li>
+                        <li><code>::1 localhost</code> - IPv6 loopback address</li>
+                        <li><code>127.0.1.1 blackarch-box.localdomain blackarch-box</code> - Maps our hostname to a loopback address. The <code>.localdomain</code> is the fully qualified domain name (FQDN), and <code>blackarch-box</code> is the short hostname.</li>
+                    </ul>
+
+                    <div class="alert alert-note">
+                        <strong>Note:</strong> The 127.0.1.1 entry is a Debian/Arch convention for systems without a permanent IP address. It ensures that the hostname resolves correctly even when not connected to a network.
+                    </div>
                 </section>
 
                 <section id="step14">
                     <h2>Step 14: Set Root Password</h2>
+                    <p>The root user is the superuser account with complete control over the system. Setting a strong password is critical for security.</p>
+                    
+                    <h3>Understanding the Root Account</h3>
+                    <p>Root (also called superuser or administrator) has unrestricted access to all files, commands, and system resources. With great power comes great responsibility - a compromised root account means complete system compromise.</p>
+
+                    <h3>Setting the Password</h3>
                     <pre><code class="language-bash">passwd</code></pre>
+                    <p>This command prompts you to enter and confirm a new password for the root account.</p>
+
+                    <h3>Password Security Tips</h3>
+                    <ul>
+                        <li><strong>Length:</strong> At least 12 characters</li>
+                        <li><strong>Complexity:</strong> Mix uppercase, lowercase, numbers, and symbols</li>
+                        <li><strong>Uniqueness:</strong> Don't reuse passwords from other systems</li>
+                        <li><strong>Memorability:</strong> Use a passphrase (multiple words) rather than a complex single word</li>
+                        <li><strong>Storage:</strong> Consider using a password manager</li>
+                    </ul>
+
+                    <div class="alert alert-warning">
+                        <strong>Warning:</strong> When typing the password, nothing will be displayed on screen (no asterisks or dots). This is normal and prevents shoulder surfing. Type carefully and press Enter when done.
+                    </div>
+
+                    <h3>Best Practices</h3>
+                    <p>While we're setting a root password now, in normal operation you should:</p>
+                    <ul>
+                        <li>Use a regular user account for daily tasks</li>
+                        <li>Use sudo to run specific commands as root when needed</li>
+                        <li>Never log in as root directly unless absolutely necessary</li>
+                        <li>Consider disabling root login via SSH if you set up remote access</li>
+                    </ul>
                 </section>
 
                 <section id="step15">
                     <h2>Step 15: Network Configuration</h2>
+                    <p>We need to ensure networking starts automatically after reboot so you can connect to the internet without manual configuration.</p>
+                    
+                    <h3>Understanding NetworkManager</h3>
+                    <p>NetworkManager is a service that automatically manages network connections. It handles:</p>
+                    <ul>
+                        <li>Wired Ethernet connections</li>
+                        <li>WiFi connections (with GUI tools)</li>
+                        <li>VPN connections</li>
+                        <li>Mobile broadband</li>
+                        <li>Network profiles for different locations</li>
+                    </ul>
+                    <p>We installed it in Step 7, now we need to enable it to start at boot.</p>
+
+                    <h3>Enabling NetworkManager</h3>
                     <pre><code class="language-bash">systemctl enable NetworkManager</code></pre>
+                    <p>This command creates a symbolic link in the systemd configuration to start NetworkManager automatically at boot. The service name is case-sensitive: <code>NetworkManager</code> (capital N and M).</p>
+
+                    <h3>Understanding systemctl</h3>
+                    <p><code>systemctl</code> is the command-line tool for controlling systemd, the init system used by Arch Linux. Common commands:</p>
+                    <ul>
+                        <li><code>enable</code> - Start service at boot</li>
+                        <li><code>disable</code> - Don't start at boot</li>
+                        <li><code>start</code> - Start service now</li>
+                        <li><code>stop</code> - Stop service now</li>
+                        <li><code>restart</code> - Restart service</li>
+                        <li><code>status</code> - Show service status</li>
+                    </ul>
+
+                    <div class="alert alert-tip">
+                        <strong>Tip:</strong> After reboot, you can use <code>nmtui</code> (NetworkManager Text User Interface) for a menu-driven network configuration, or <code>nmcli</code> for command-line network management.
+                    </div>
                 </section>
 
                 <section id="step16">
                     <h2>Step 16: Initramfs</h2>
+                    <p>The initramfs (initial ram filesystem) is a temporary root file system loaded into memory during the boot process. It contains the minimal tools needed to mount the real root file system.</p>
+                    
+                    <h3>Understanding Initramfs</h3>
+                    <p>When your computer boots, the kernel needs to load drivers and mount the root file system before it can access any files on disk. But the drivers are on the disk! This is a chicken-and-egg problem.</p>
+                    <p>The solution is initramfs: a small file system loaded into RAM by the bootloader. It contains essential drivers and tools to mount the real root file system. Once mounted, the initramfs is discarded and the real system takes over.</p>
+
+                    <h3>Generating Initramfs</h3>
                     <pre><code class="language-bash">mkinitcpio -P</code></pre>
+                    <p><code>mkinitcpio</code> (make initial CPIO archive) generates the initramfs. The <code>-P</code> flag means "preset" - it generates initramfs for all kernel presets configured in <code>/etc/mkinitcpio.d/</code>.</p>
+
+                    <h3>When You Might Need Custom Configuration</h3>
+                    <p>For most installations, the default configuration works fine. However, you might need to edit <code>/etc/mkinitcpio.conf</code> if you use:</p>
+                    <ul>
+                        <li><strong>LVM (Logical Volume Manager):</strong> Add <code>lvm2</code> to the HOOKS array</li>
+                        <li><strong>Full disk encryption:</strong> Add <code>encrypt</code> to the HOOKS array</li>
+                        <li><strong>RAID arrays:</strong> Add <code>mdadm</code> to the HOOKS array</li>
+                        <li><strong>Special hardware:</strong> Add specific modules to the MODULES array</li>
+                    </ul>
+
+                    <div class="alert alert-note">
+                        <strong>Note:</strong> If you ever install a new kernel, you'll need to regenerate the initramfs. Arch Linux usually does this automatically via pacman hooks, but it's good to know this command.
+                    </div>
                 </section>
 
                 <section id="step17">
                     <h2>Step 17: Install a Bootloader</h2>
+                    <p>The bootloader is the first program that runs when you start your computer. It loads the operating system kernel into memory and starts the boot process.</p>
+                    
+                    <h3>Understanding Bootloaders</h3>
+                    <p>Without a bootloader, your computer doesn't know how to start the operating system. The bootloader:</p>
+                    <ul>
+                        <li>Initializes hardware</li>
+                        <li>Presents a menu to choose which OS to boot (if dual-booting)</li>
+                        <li>Loads the kernel and initramfs into memory</li>
+                        <li>Passes control to the kernel</li>
+                    </ul>
+                    <p>We'll use GRUB (GRand Unified Bootloader), the most popular Linux bootloader.</p>
+
                     <h3>For UEFI Systems</h3>
-                    <pre><code class="language-bash">pacman -S grub efibootmgr
+                    <pre><code class="language-bash"># Install GRUB and EFI boot manager
+pacman -S grub efibootmgr
+
+# Install GRUB to the EFI directory
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+
+# Generate GRUB configuration
 grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
+
+                    <h3>Command Breakdown</h3>
+                    <ul>
+                        <li><code>pacman -S grub efibootmgr</code>: Installs GRUB and the EFI boot manager. The EFI boot manager is needed to add GRUB to the UEFI boot menu.</li>
+                        <li><code>grub-install --target=x86_64-efi</code>: Specifies we're installing for 64-bit UEFI systems.</li>
+                        <li><code>--efi-directory=/boot</code>: Tells GRUB where the EFI system partition is mounted.</li>
+                        <li><code>--bootloader-id=GRUB</code>: Sets the name that appears in the UEFI boot menu.</li>
+                        <li><code>grub-mkconfig -o /boot/grub/grub.cfg</code>: Generates the GRUB configuration file by scanning for installed operating systems.</li>
+                    </ul>
+
                     <h3>For BIOS/Legacy Systems</h3>
-                    <pre><code class="language-bash">pacman -S grub
+                    <pre><code class="language-bash"># Install GRUB
+pacman -S grub
+
+# Install GRUB to the Master Boot Record
 grub-install --target=i386-pc /dev/sda
+
+# Generate configuration
 grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
+
+                    <div class="alert alert-warning">
+                        <strong>Warning:</strong> For BIOS systems, replace <code>/dev/sda</code> with your actual disk (not a partition like /dev/sda1). Installing to the wrong device can make your system unbootable.
+                    </div>
+
+                    <h3>Troubleshooting</h3>
+                    <p>If grub-install fails:</p>
+                    <ul>
+                        <li>Ensure you're in the correct mode (UEFI vs BIOS)</li>
+                        <li>Check that the EFI partition is mounted at /boot (for UEFI)</li>
+                        <li>Try loading the efivarfs module: <code>modprobe efivarfs</code></li>
+                        <li>Verify your partition table is correct (GPT for UEFI, MBR for BIOS)</li>
+                    </ul>
                 </section>
 
                 <section id="step18">
                     <h2>Step 18: Exit, Unmount, and Reboot</h2>
-                    <pre><code class="language-bash">exit
-umount -R /mnt
-reboot</code></pre>
+                    <p>We've completed all the configuration steps. Now it's time to exit the chroot environment, unmount our partitions, and reboot into our new system.</p>
+                    
+                    <h3>Exiting Chroot</h3>
+                    <pre><code class="language-bash">exit</code></pre>
+                    <p>This exits the chroot environment and returns you to the live ISO. You're now working with the ISO's file system again, not the installed system.</p>
+
+                    <h3>Unmounting Partitions</h3>
+                    <pre><code class="language-bash">umount -R /mnt</code></pre>
+                    <p>The <code>umount</code> command detaches file systems. The <code>-R</code> flag means "recursive" - it unmounts /mnt and all file systems mounted beneath it (like /mnt/boot). This is important to ensure all data is written to disk and no files are locked.</p>
+
+                    <h3>Rebooting</h3>
+                    <pre><code class="language-bash">reboot</code></pre>
+                    <p>This restarts the computer. The system should now boot from your hard drive into the newly installed Arch Linux.</p>
+
+                    <div class="alert alert-tip">
+                        <strong>Tip:</strong> Remove the installation media (USB drive or ISO) before or during reboot. If you don't, the system might boot from it again instead of your hard drive. For VMs, you can detach the ISO from the virtual optical drive.
+                    </div>
+
+                    <h3>What to Expect</h3>
+                    <p>After reboot, you should see:</p>
+                    <ol>
+                        <li>GRUB boot menu (if you installed it correctly)</li>
+                        <li>Arch Linux boot messages scrolling by</li>
+                        <li>A login prompt: <code>blackarch-box login:</code></li>
+                    </ol>
+                    <p>If you see the GRUB menu, congratulations! Your bootloader is working. If you get a login prompt, your system booted successfully!</p>
+
+                    <div class="alert alert-warning">
+                        <strong>If it doesn't boot:</strong> Don't panic. Boot back into the live ISO, mount your partitions, chroot in, and check your configuration. Common issues include incorrect fstab entries, missing bootloader, or wrong partition mounting.
+                    </div>
                 </section>
 
                 <section id="step19">
-                    <h2>Step 19: First Boot</h2>
-                    <p>Login as <code>root</code> with the password you set.</p>
+                    <h2>Step 19: First Boot - Login</h2>
+                    <p>Congratulations! You've successfully installed Arch Linux. Now it's time to log in and start using your new system.</p>
+                    
+                    <h3>The Login Process</h3>
+                    <p>After the system boots, you'll see a text-based login prompt:</p>
+                    <pre><code>blackarch-box login:</code></pre>
+                    <p>Enter <code>root</code> as the username, then enter the password you set in Step 14.</p>
+
+                    <h3>Understanding the Prompt</h3>
+                    <p>After logging in, you'll see a prompt like:</p>
+                    <pre><code>[root@blackarch-box ~]#</code></pre>
+                    <p>This shows:</p>
+                    <ul>
+                        <li><code>root</code> - Current user</li>
+                        <li><code>@blackarch-box</code> - Hostname</li>
+                        <li><code>~</code> - Current directory (home directory)</li>
+                        <li><code>#</code> - Indicates you're root (regular users see $)</li>
+                    </ul>
+
+                    <h3>First Commands</h3>
+                    <p>Let's verify everything is working:</p>
+                    <pre><code class="language-bash"># Check internet connection
+ping -c 3 archlinux.org
+
+# Check disk usage
+df -h
+
+# Check system information
+uname -a
+
+# Update the system
+pacman -Syu</code></pre>
+
+                    <div class="alert alert-note">
+                        <strong>Note:</strong> The <code>pacman -Syu</code> command synchronizes the package database and updates all installed packages. It's good practice to do this regularly to keep your system secure and up-to-date.
+                    </div>
+
+                    <h3>What's Next?</h3>
+                    <p>Right now you have a minimal command-line system. In the next steps, we'll:</p>
+                    <ul>
+                        <li>Create a regular user account (for security)</li>
+                        <li>Set up sudo (to run commands as root when needed)</li>
+                        <li>Optionally install a desktop environment</li>
+                        <li>Convert to BlackArch</li>
+                    </ul>
                 </section>
 
                 <section id="step20">
-                    <h2>Step 20: Post-Installation (User & Sudo)</h2>
-                    <pre><code class="language-bash">useradd -m -G wheel -s /bin/bash your_username
-passwd your_username
-pacman -S sudo
-EDITOR=nano visudo</code></pre>
-                    <p>Uncomment <code>%wheel ALL=(ALL:ALL) ALL</code> in visudo.</p>
+                    <h2>Step 20: Post-Installation - User and Sudo</h2>
+                    <p>For security reasons, you should not use the root account for daily tasks. We'll create a regular user account and configure sudo to allow running administrative commands when needed.</p>
+                    
+                    <h3>Why Not Use Root?</h3>
+                    <p>Using root for daily tasks is dangerous because:</p>
+                    <ul>
+                        <li>A single typo can destroy your system</li>
+                        <li>Malware running as root has complete control</li>
+                        <li>It violates the principle of least privilege</li>
+                        <li>Many applications refuse to run as root for safety</li>
+                    </ul>
+
+                    <h3>Creating a User Account</h3>
+                    <pre><code class="language-bash"># Create user with home directory, add to wheel group, set bash as shell
+useradd -m -G wheel -s /bin/bash your_username
+
+# Set password for the new user
+passwd your_username</code></pre>
+
+                    <h3>Command Breakdown</h3>
+                    <ul>
+                        <li><code>useradd</code>: Command to create a new user</li>
+                        <li><code>-m</code>: Create home directory (/home/your_username)</li>
+                        <li><code>-G wheel</code>: Add to the wheel group (used for sudo access)</li>
+                        <li><code>-s /bin/bash</code>: Set bash as the default shell</li>
+                        <li><code>your_username</code>: Replace with your desired username</li>
+                    </ul>
+
+                    <h3>Configuring Sudo</h3>
+                    <p>Sudo (superuser do) allows authorized users to run commands as root. First, install it:</p>
+                    <pre><code class="language-bash">pacman -S sudo</code></pre>
+                    <p>Then edit the sudoers file:</p>
+                    <pre><code class="language-bash">EDITOR=nano visudo</code></pre>
+                    <p>This opens the sudoers file in nano. Find this line:</p>
+                    <pre><code># %wheel ALL=(ALL:ALL) ALL</code></pre>
+                    <p>Remove the <code>#</code> to uncomment it:</p>
+                    <pre><code>%wheel ALL=(ALL:ALL) ALL</code></pre>
+                    <p>Save and exit (Ctrl+O, Enter, Ctrl+X in nano).</p>
+
+                    <h3>Understanding the Sudoers Line</h3>
+                    <ul>
+                        <li><code>%wheel</code>: Applies to all users in the wheel group</li>
+                        <li><code>ALL</code>: From any host</li>
+                        <li><code>(ALL:ALL)</code>: Can run commands as any user and any group</li>
+                        <li><code>ALL</code>: Any command</li>
+                    </ul>
+
+                    <div class="alert alert-tip">
+                        <strong>Tip:</strong> After setting up your user, log out of root (<code>exit</code>) and log in as your new user. Test sudo with: <code>sudo pacman -Syu</code>. You'll be prompted for your user password (not root password).
+                    </div>
                 </section>
 
                 <section id="step21">
-                    <h2>Step 21: Install a Desktop Environment</h2>
-                    <p>Example for XFCE:</p>
-                    <pre><code class="language-bash">sudo pacman -S xfce4 xfce4-goodies lightdm
-sudo systemctl enable lightdm</code></pre>
+                    <h2>Step 21: Install a Desktop Environment (Optional)</h2>
+                    <p>While Arch Linux works perfectly fine as a command-line system, many users prefer a graphical interface. This is especially useful for BlackArch, as many security tools have graphical interfaces.</p>
+                    
+                    <h3>Understanding Desktop Environments</h3>
+                    <p>A desktop environment (DE) provides:</p>
+                    <ul>
+                        <li>Graphical user interface with windows, menus, and icons</li>
+                        <li>File manager for browsing files</li>
+                        <li>Application launcher</li>
+                        <li>System settings and configuration tools</li>
+                        <li>Wallpaper and themes</li>
+                    </ul>
+                    <p>Popular options for Arch Linux:</p>
+
+                    <h3>XFCE (Lightweight, Recommended for VMs)</h3>
+                    <pre><code class="language-bash">sudo pacman -S xfce4 xfce4-goodies lightdm lightdm-gtk-greeter</code></pre>
+                    <p>XFCE is lightweight, fast, and uses minimal resources. Perfect for VMs or older hardware.</p>
+
+                    <h3>KDE Plasma (Feature-rich, Modern)</h3>
+                    <pre><code class="language-bash">sudo pacman -S plasma-meta kde-applications-meta sddm</code></pre>
+                    <p>KDE Plasma is modern, customizable, and feature-rich. Uses more resources but offers a polished experience.</p>
+
+                    <h3>GNOME (Simple, Elegant)</h3>
+                    <pre><code class="language-bash">sudo pacman -S gnome gnome-extra gdm</code></pre>
+                    <p>GNOME focuses on simplicity and ease of use. Has a unique workflow that some users love and others find limiting.</p>
+
+                    <h3>Enabling the Display Manager</h3>
+                    <p>The display manager (DM) is the graphical login screen. Enable it to start at boot:</p>
+                    <pre><code class="language-bash"># For LightDM (XFCE)
+sudo systemctl enable lightdm
+
+# For SDDM (KDE)
+sudo systemctl enable sddm
+
+# For GDM (GNOME)
+sudo systemctl enable gdm</code></pre>
+
+                    <div class="alert alert-note">
+                        <strong>Note:</strong> After enabling the display manager, reboot your system. You should see a graphical login screen where you can log in with your regular user account.
+                    </div>
+
+                    <h3>Post-Desktop Setup</h3>
+                    <p>After logging into your desktop:</p>
+                    <ul>
+                        <li>Set up WiFi using the network manager applet (if needed)</li>
+                        <li>Install additional applications you need</li>
+                        <li>Customize your desktop theme and settings</li>
+                        <li>Proceed to BlackArch conversion</li>
+                    </ul>
                 </section>
 
                 <section id="step22">
-                    <h2>Step 22: Convert to BlackArch</h2>
-                    <h3>Why Convert Instead of ISO?</h3>
-                    <p>Converting gives you a stable base, full control, and avoids the bloat and potential bugs of the full BlackArch ISO.</p>
+                    <h2>Step 22: Convert to BlackArch (The Main Goal)</h2>
+                    <p>Now that you have a fully functional Arch Linux system, it's time to transform it into BlackArch - the ultimate penetration testing distribution.</p>
                     
+                    <h3>What is BlackArch?</h3>
+                    <p>BlackArch Linux is an Arch Linux-based penetration testing distribution designed for security researchers and penetration testers. It is fully compatible with existing Arch installations and contains a vast collection of tools organized by category.</p>
+                    <p>Key features:</p>
+                    <ul>
+                        <li>Over 2,800 security tools</li>
+                        <li>Tools organized by category (web, wireless, forensics, etc.)</li>
+                        <li>Fully compatible with Arch Linux</li>
+                        <li>Rolling release model (always up-to-date)</li>
+                        <li>Can install individual tools or entire categories</li>
+                    </ul>
+
+                    <h3>Why Convert Instead of Using BlackArch ISO?</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Converting Arch</th>
+                                <th>BlackArch ISO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Stability</td>
+                                <td>Stable base you built</td>
+                                <td>Can have bugs</td>
+                            </tr>
+                            <tr>
+                                <td>Control</td>
+                                <td>Full control over packages</td>
+                                <td>Pre-configured</td>
+                            </tr>
+                            <tr>
+                                <td>Size</td>
+                                <td>Only install what you need</td>
+                                <td>~22GB with everything</td>
+                            </tr>
+                            <tr>
+                                <td>Learning</td>
+                                <td>Understand your system</td>
+                                <td>Black box</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                     <h3>Step-by-Step Conversion</h3>
-                    <pre><code class="language-bash">curl -O https://blackarch.org/strap.sh
+                    
+                    <h4>1. Download and Run the BlackArch Strap Script</h4>
+                    <p>The strap script adds the BlackArch repository to your system:</p>
+                    <pre><code class="language-bash"># Download the strap script
+curl -O https://blackarch.org/strap.sh
+
+# Verify the SHA1 sum (security check)
 echo "5ea40d49ecd00f61b0de78d19a6372d754a371c0 strap.sh" | sha1sum -c
+
+# Make it executable
 chmod +x strap.sh
-sudo ./strap.sh
-sudo pacman -Syyu</code></pre>
+
+# Run it with sudo
+sudo ./strap.sh</code></pre>
+
+                    <h4>What the Script Does</h4>
+                    <ul>
+                        <li>Adds the BlackArch repository to <code>/etc/pacman.conf</code></li>
+                        <li>Imports the BlackArch signing keys</li>
+                        <li>Updates your package database</li>
+                    </ul>
+
+                    <h4>2. Update Your System</h4>
+                    <pre><code class="language-bash">sudo pacman -Syyu</code></pre>
+                    <p>The double <code>y</code> forces a refresh of all package databases, ensuring you have the latest BlackArch package list.</p>
+
+                    <h4>3. Verify the Repository</h4>
+                    <pre><code class="language-bash"># List BlackArch packages
+pacman -Sl blackarch | head -20
+
+# List tool categories
+pacman -Sg | grep blackarch</code></pre>
+
+                    <div class="alert alert-warning">
+                        <strong>Warning:</strong> Make sure you have at least 20GB of free disk space before proceeding. BlackArch tools can consume significant space.
+                    </div>
                 </section>
 
                 <section id="tools">
                     <h2>Installing BlackArch Tools</h2>
-                    <p><strong>Do not install all tools.</strong> Install by category:</p>
-                    <pre><code class="language-bash">pacman -Sg | grep blackarch
-sudo pacman -S blackarch-webapp
-sudo pacman -S blackarch-wireless</code></pre>
+                    <p>Now that the BlackArch repository is added, you can install security tools. There are three approaches, each with different trade-offs.</p>
+                    
+                    <h3>Option 1: Install All Tools (Not Recommended)</h3>
+                    <pre><code class="language-bash">sudo pacman -S blackarch</code></pre>
+                    <p>This installs all 2,800+ tools. While tempting, this is discouraged because:</p>
+                    <ul>
+                        <li>Consumes ~22GB of disk space</li>
+                        <li>Many tools you'll never use</li>
+                        <li>Updates become slow and complex</li>
+                        <li>Package conflicts are more likely</li>
+                    </ul>
+
+                    <h3>Option 2: Install by Category (Recommended)</h3>
+                    <p>BlackArch tools are organized into categories. Install only what you need:</p>
+                    <pre><code class="language-bash"># List all categories
+pacman -Sg | grep blackarch
+
+# Install specific categories
+sudo pacman -S blackarch-webapp      # Web application testing
+sudo pacman -S blackarch-wireless    # Wireless network auditing
+sudo pacman -S blackarch-exploitation # Exploitation frameworks
+sudo pacman -S blackarch-forensic    # Forensics tools
+sudo pacman -S blackarch-reversing   # Reverse engineering
+sudo pacman -S blackarch-crypto      # Cryptography tools</code></pre>
+
+                    <h3>Common Categories Explained</h3>
+                    <ul>
+                        <li><strong>blackarch-webapp:</strong> Tools for testing web applications (SQL injection, XSS, etc.)</li>
+                        <li><strong>blackarch-wireless:</strong> WiFi auditing tools (aircrack-ng, reaver, etc.)</li>
+                        <li><strong>blackarch-exploitation:</strong> Exploitation frameworks (Metasploit, etc.)</li>
+                        <li><strong>blackarch-forensic:</strong> Digital forensics and data recovery</li>
+                        <li><strong>blackarch-reversing:</strong> Reverse engineering tools (radare2, Ghidra)</li>
+                        <li><strong>blackarch-crypto:</strong> Cryptanalysis and encryption tools</li>
+                        <li><strong>blackarch-sniffer:</strong> Network sniffers (Wireshark, tcpdump)</li>
+                        <li><strong>blackarch-fuzzer:</strong> Fuzzing tools for finding vulnerabilities</li>
+                    </ul>
+
+                    <h3>Option 3: Install Individual Tools</h3>
+                    <p>For maximum control, install specific tools:</p>
+                    <pre><code class="language-bash"># Search for a tool
+pacman -Ss nmap
+
+# Install a specific tool
+sudo pacman -S nmap</code></pre>
+
+                    <div class="alert alert-tip">
+                        <strong>Pro Tips:</strong>
+                        <ul>
+                            <li>Start with categories relevant to your interests</li>
+                            <li>Use <code>pacman -Sc</code> periodically to clean package cache and free space</li>
+                            <li>Keep your system updated with <code>sudo pacman -Syu</code></li>
+                            <li>Read tool documentation before using them</li>
+                            <li>Always use these tools ethically and legally</li>
+                        </ul>
+                    </div>
+
+                    <h3>Ethical Use Reminder</h3>
+                    <p>These tools are powerful and can be used for both good and bad purposes. Always:</p>
+                    <ul>
+                        <li>Only test systems you own or have explicit permission to test</li>
+                        <li>Follow laws and regulations in your jurisdiction</li>
+                        <li>Use your skills to improve security, not compromise it</li>
+                        <li>Report vulnerabilities responsibly</li>
+                    </ul>
                 </section>
 
                 <section id="conclusion">
                     <h2>Conclusion</h2>
-                    <p>You've successfully installed Arch Linux and converted it into a BlackArch penetration testing environment. Remember to use these tools ethically and legally.</p>
-                    <p><strong>Happy Hacking!</strong></p>
+                    <p>Congratulations! You've successfully completed one of the most comprehensive Linux installation guides available. You've not only installed Arch Linux from scratch but also transformed it into a fully functional BlackArch penetration testing environment.</p>
+                    
+                    <h3>What You've Learned</h3>
+                    <ul>
+                        <li>How to partition and format disks</li>
+                        <li>How to install and configure a Linux system from the command line</li>
+                        <li>How bootloaders work and how to configure them</li>
+                        <li>How to manage users and permissions</li>
+                        <li>How to install and configure desktop environments</li>
+                        <li>How to add third-party repositories</li>
+                        <li>How to install and manage security tools</li>
+                    </ul>
+
+                    <h3>Next Steps</h3>
+                    <p>Now that you have your BlackArch system set up, consider:</p>
+                    <ul>
+                        <li>Learning about common penetration testing methodologies</li>
+                        <li>Practicing on legal platforms like HackTheBox or TryHackMe</li>
+                        <li>Studying for certifications like OSCP or CEH</li>
+                        <li>Contributing to open-source security tools</li>
+                        <li>Joining the cybersecurity community</li>
+                    </ul>
+
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="https://wiki.archlinux.org" target="_blank">Arch Wiki</a> - Comprehensive Arch Linux documentation</li>
+                        <li><a href="https://blackarch.org" target="_blank">BlackArch Website</a> - Official BlackArch resources</li>
+                        <li><a href="https://github.com/Ch4120N/arch-to-blackarch" target="_blank">This Guide's Repository</a> - Report issues or contribute</li>
+                    </ul>
+
+                    <div class="alert alert-note">
+                        <strong>Final Note:</strong> This guide is maintained by Ch4120N. If you found it helpful, please consider starring the repository on GitHub. If you encounter any issues or have suggestions for improvement, please open an issue on the repository.
+                    </div>
+
+                    <p><strong>Happy Hacking (Ethically)!</strong></p>
                 </section>
             </article>
         </main>
