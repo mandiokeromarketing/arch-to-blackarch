@@ -29,15 +29,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark" disabled>
+    
     <!-- CSS -->
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link id="hljs-theme" rel="stylesheet" href="css/github/github.min.css">
-    
-    <!-- Highlight.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -63,7 +62,7 @@
             </button>
             <a href="#" class="logo">
                 <img src="img/logo.png" alt="Logo" class="logo-img">
-                <span>Arch Linux to BlackArch</span>
+                <span>arch-to-blackarch</span>
             </a>
         </div>
         <div class="header-right">
@@ -294,14 +293,14 @@
 
                     <h3>Wired Ethernet Connection</h3>
                     <p>If you're using a wired connection (Ethernet cable), it should work automatically in most cases. The live environment includes drivers for most network cards. To test your connection:</p>
-                    <pre><code class="language-bash">ping -c 3 archlinux.org</code></pre>
+                    <pre><code class="language-bash hljs">ping -c 3 archlinux.org</code></pre>
                     <p>This command sends 3 packets to archlinux.org and waits for responses. If you see replies, your internet is working. If not, check your cable connection or try a different network port.</p>
 
                     <h3>WiFi Connection</h3>
                     <p>For wireless connections, you'll need to use the <code>iwctl</code> tool, which is part of the iwd (iNet Wireless Daemon) package included in the Arch ISO. Here's the detailed process:</p>
-                    <pre><code class="language-bash">iwctl</code></pre>
+                    <pre><code class="language-bash hljs">iwctl</code></pre>
                     <p>This opens the interactive iwctl prompt. From here, you can manage wireless connections:</p>
-                    <pre><code class="language-bash"># List available wireless devices
+                    <pre><code class="language-bash hljs"># List available wireless devices
 device list
 
 # Scan for networks (replace wlan0 with your device name)
@@ -319,7 +318,7 @@ exit</code></pre>
 
                     <h3>Verifying Your Connection</h3>
                     <p>After connecting, always verify your internet works:</p>
-                    <pre><code class="language-bash">ping -c 3 archlinux.org</code></pre>
+                    <pre><code class="language-bash hljs">ping -c 3 archlinux.org</code></pre>
                     <p>If you get responses, you're ready to proceed. If not, double-check your network credentials and signal strength.</p>
 
                     <div class="alert alert-warning">
@@ -336,12 +335,12 @@ exit</code></pre>
 
                     <h3>Enabling NTP</h3>
                     <p>NTP (Network Time Protocol) automatically synchronizes your clock with internet time servers. Enable it with:</p>
-                    <pre><code class="language-bash">timedatectl set-ntp true</code></pre>
+                    <pre><code class="language-bash hljs">timedatectl set-ntp true</code></pre>
                     <p>This command tells systemd (the init system used by Arch) to enable and start the NTP service. The clock will automatically sync with internet time servers.</p>
 
                     <h3>Verifying the Clock</h3>
                     <p>Check that NTP is working correctly:</p>
-                    <pre><code class="language-bash">timedatectl status</code></pre>
+                    <pre><code class="language-bash hljs">timedatectl status</code></pre>
                     <p>Look for "NTP service: active" and "System clock synchronized: yes" in the output. If you see these, your clock is accurate and you can proceed.</p>
 
                     <div class="alert alert-note">
@@ -363,7 +362,7 @@ exit</code></pre>
 
                     <h3>Identifying Your Disk</h3>
                     <p>First, we need to identify which disk we're working with:</p>
-                    <pre><code class="language-bash">lsblk</code></pre>
+                    <pre><code class="language-bash hljs">lsblk</code></pre>
                     <p>This command lists all block devices (disks and partitions). Look for your main disk - it's usually the largest one. Common names:</p>
                     <ul>
                         <li><code>/dev/sda</code> - SATA/IDE drives</li>
@@ -378,7 +377,7 @@ exit</code></pre>
 
                     <h3>Partitioning with fdisk</h3>
                     <p>We'll use <code>fdisk</code>, a command-line partitioning tool. It's interactive, meaning you type commands and see results immediately:</p>
-                    <pre><code class="language-bash">fdisk /dev/sda</code></pre>
+                    <pre><code class="language-bash hljs">fdisk /dev/sda</code></pre>
                     <p>This opens fdisk with your disk. You'll see a command prompt. Here's what to do for UEFI systems:</p>
                     <ol>
                         <li><strong>Create GPT partition table:</strong> Type <code>g</code> and press Enter. GPT (GUID Partition Table) is the modern standard, required for UEFI and supports disks larger than 2TB.</li>
@@ -421,7 +420,7 @@ exit</code></pre>
 
                     <h3>Verifying Partitions</h3>
                     <p>After writing, verify your partitions were created correctly:</p>
-                    <pre><code class="language-bash">lsblk</code></pre>
+                    <pre><code class="language-bash hljs">lsblk</code></pre>
                     <p>You should see <code>/dev/sda1</code> (512M), <code>/dev/sda2</code> (4G), and <code>/dev/sda3</code> (remaining space).</p>
                 </section>
 
@@ -441,7 +440,7 @@ exit</code></pre>
 
                     <h3>Formatting Commands</h3>
                     <p>Format each partition with the appropriate file system:</p>
-                    <pre><code class="language-bash"># Format EFI partition as FAT32
+                    <pre><code class="language-bash hljs"># Format EFI partition as FAT32
 mkfs.fat -F32 /dev/sda1
 
 # Create swap space
@@ -475,7 +474,7 @@ mkfs.ext4 /dev/sda3</code></pre>
                     <p>For installation, we use <code>/mnt</code> as the temporary root. We'll mount our root partition there, then create subdirectories for other partitions.</p>
 
                     <h3>Mounting Commands</h3>
-                    <pre><code class="language-bash"># Mount the root partition to /mnt
+                    <pre><code class="language-bash hljs"># Mount the root partition to /mnt
 mount /dev/sda3 /mnt
 
 # Create the boot directory
@@ -497,7 +496,7 @@ mount /dev/sda1 /mnt/boot</code></pre>
 
                     <h3>Verifying Mounts</h3>
                     <p>Check that everything is mounted correctly:</p>
-                    <pre><code class="language-bash">lsblk</code></pre>
+                    <pre><code class="language-bash hljs">lsblk</code></pre>
                     <p>You should see your partitions with MOUNTPOINTS showing /mnt, /mnt/boot, etc.</p>
                 </section>
 
@@ -509,7 +508,7 @@ mount /dev/sda1 /mnt/boot</code></pre>
                     <p><code>pacstrap</code> is a convenience script included in the Arch ISO. It uses pacman (Arch's package manager) to install packages to a specified directory (our mounted root at /mnt). This is how we populate our new system with the base operating system files.</p>
 
                     <h3>Installation Command</h3>
-                    <pre><code class="language-bash">pacstrap /mnt base linux linux-firmware base-devel vim nano networkmanager</code></pre>
+                    <pre><code class="language-bash hljs">pacstrap /mnt base linux linux-firmware base-devel vim nano networkmanager</code></pre>
 
                     <h3>Package Breakdown</h3>
                     <p>Let's understand what each package does:</p>
@@ -555,12 +554,12 @@ mount /dev/sda1 /mnt/boot</code></pre>
                     </ul>
 
                     <h3>Generating fstab</h3>
-                    <pre><code class="language-bash">genfstab -U /mnt >> /mnt/etc/fstab</code></pre>
+                    <pre><code class="language-bash hljs">genfstab -U /mnt >> /mnt/etc/fstab</code></pre>
                     <p>This command uses <code>genfstab</code> (generate filesystem table) to automatically create the fstab file based on currently mounted partitions. The <code>-U</code> flag uses UUIDs (Universally Unique Identifiers) to identify partitions, which is more reliable than device names that can change.</p>
 
                     <h3>Verifying fstab</h3>
                     <p>Always check the generated file to ensure it's correct:</p>
-                    <pre><code class="language-bash">cat /mnt/etc/fstab</code></pre>
+                    <pre><code class="language-bash hljs">cat /mnt/etc/fstab</code></pre>
                     <p>You should see entries for your root partition, EFI partition, and swap. Each entry should have a UUID, mount point, file system type, and options. If something looks wrong, you can edit the file manually with nano before proceeding.</p>
 
                     <div class="alert alert-warning">
@@ -577,7 +576,7 @@ mount /dev/sda1 /mnt/boot</code></pre>
                     <p>Think of it like this: we've been working on a house from the outside. Now we're going inside to arrange the furniture and set up the utilities.</p>
 
                     <h3>Chroot Command</h3>
-                    <pre><code class="language-bash">arch-chroot /mnt</code></pre>
+                    <pre><code class="language-bash hljs">arch-chroot /mnt</code></pre>
                     <p><code>arch-chroot</code> is a wrapper around the standard chroot command that sets up additional things needed for Arch Linux, like mounting /proc, /sys, and /dev inside the chroot environment.</p>
 
                     <h3>What Changes After Chroot</h3>
@@ -605,16 +604,16 @@ mount /dev/sda1 /mnt/boot</code></pre>
 
                     <h3>Finding Your Timezone</h3>
                     <p>Timezones are organized by region and city. To see available timezones:</p>
-                    <pre><code class="language-bash">ls /usr/share/zoneinfo/</code></pre>
+                    <pre><code class="language-bash hljs">ls /usr/share/zoneinfo/</code></pre>
                     <p>This shows regions like America, Europe, Asia, etc. Each region contains cities. For example, <code>America/New_York</code>, <code>Europe/London</code>, <code>Asia/Tokyo</code>.</p>
 
                     <h3>Setting the Timezone</h3>
-                    <pre><code class="language-bash"># Example for New York (replace with your timezone)
+                    <pre><code class="language-bash hljs"># Example for New York (replace with your timezone)
 ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime</code></pre>
                     <p>The <code>ln -sf</code> command creates a symbolic link (<code>-s</code>) and forces overwriting if the file exists (<code>-f</code>). This tells the system to use the specified timezone.</p>
 
                     <h3>Synchronizing Hardware Clock</h3>
-                    <pre><code class="language-bash">hwclock --systohc</code></pre>
+                    <pre><code class="language-bash hljs">hwclock --systohc</code></pre>
                     <p>This command writes the current system time to the hardware clock (the clock on your motherboard that keeps time even when the computer is off). The <code>--systohc</code> flag means "system time to hardware clock". This ensures your hardware clock is set to UTC, which is the standard for Linux systems.</p>
 
                     <div class="alert alert-tip">
@@ -638,7 +637,7 @@ ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime</code></pre>
 
                     <h3>Editing locale.gen</h3>
                     <p>The file <code>/etc/locale.gen</code> contains a list of all available locales, most of which are commented out (disabled). We need to uncomment the ones we want to use:</p>
-                    <pre><code class="language-bash">nano /etc/locale.gen</code></pre>
+                    <pre><code class="language-bash hljs">nano /etc/locale.gen</code></pre>
                     <p>In nano, use Ctrl+W to search for your locale. Common choices:</p>
                     <ul>
                         <li><code>en_US.UTF-8 UTF-8</code> - US English with UTF-8 encoding (recommended for most users)</li>
@@ -649,11 +648,11 @@ ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime</code></pre>
                     <p>Remove the <code>#</code> at the beginning of the line to uncomment it. Save with Ctrl+O, then Enter, then exit with Ctrl+X.</p>
 
                     <h3>Generating Locales</h3>
-                    <pre><code class="language-bash">locale-gen</code></pre>
+                    <pre><code class="language-bash hljs">locale-gen</code></pre>
                     <p>This command reads <code>/etc/locale.gen</code> and generates the binary locale files for all uncommented entries. This makes the locales available for use.</p>
 
                     <h3>Setting the Default Locale</h3>
-                    <pre><code class="language-bash">echo "LANG=en_US.UTF-8" > /etc/locale.conf</code></pre>
+                    <pre><code class="language-bash hljs">echo "LANG=en_US.UTF-8" > /etc/locale.conf</code></pre>
                     <p>This creates the <code>/etc/locale.conf</code> file with the LANG variable set to your preferred locale. This file is read by the system at boot to set the default locale for all users.</p>
 
                     <div class="alert alert-note">
@@ -669,7 +668,7 @@ ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime</code></pre>
                     <p>Keyboard layouts map physical keys to characters. Different countries use different layouts (QWERTY, AZERTY, QWERTZ, etc.). The layout needs to be set for both the console (text mode) and the graphical interface.</p>
 
                     <h3>Setting Console Keyboard Layout</h3>
-                    <pre><code class="language-bash">echo "KEYMAP=us" > /etc/vconsole.conf</code></pre>
+                    <pre><code class="language-bash hljs">echo "KEYMAP=us" > /etc/vconsole.conf</code></pre>
                     <p>This creates <code>/etc/vconsole.conf</code> with the KEYMAP variable. Common values:</p>
                     <ul>
                         <li><code>us</code> - US English (QWERTY)</li>
@@ -701,14 +700,14 @@ ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime</code></pre>
                     <p>Examples: <code>blackarch-box</code>, <code>my-laptop</code>, <code>pentest-station</code></p>
 
                     <h3>Setting the Hostname</h3>
-                    <pre><code class="language-bash">echo "blackarch-box" > /etc/hostname</code></pre>
+                    <pre><code class="language-bash hljs">echo "blackarch-box" > /etc/hostname</code></pre>
                     <p>This creates the <code>/etc/hostname</code> file with your chosen hostname. The system reads this file at boot to set the machine's name.</p>
 
                     <h3>Configuring /etc/hosts</h3>
                     <p>The <code>/etc/hosts</code> file maps hostnames to IP addresses. We need to add our hostname to this file so the system can resolve it:</p>
-                    <pre><code class="language-bash">nano /etc/hosts</code></pre>
+                    <pre><code class="language-bash hljs">nano /etc/hosts</code></pre>
                     <p>Add these lines:</p>
-                    <pre><code>127.0.0.1   localhost
+                    <pre><code class="language-bash hljs">127.0.0.1   localhost
 ::1         localhost
 127.0.1.1   blackarch-box.localdomain   blackarch-box</code></pre>
                     <p>Explanation:</p>
@@ -731,7 +730,7 @@ ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime</code></pre>
                     <p>Root (also called superuser or administrator) has unrestricted access to all files, commands, and system resources. With great power comes great responsibility - a compromised root account means complete system compromise.</p>
 
                     <h3>Setting the Password</h3>
-                    <pre><code class="language-bash">passwd</code></pre>
+                    <pre><code class="language-bash hljs">passwd</code></pre>
                     <p>This command prompts you to enter and confirm a new password for the root account.</p>
 
                     <h3>Password Security Tips</h3>
@@ -773,7 +772,7 @@ ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime</code></pre>
                     <p>We installed it in Step 7, now we need to enable it to start at boot.</p>
 
                     <h3>Enabling NetworkManager</h3>
-                    <pre><code class="language-bash">systemctl enable NetworkManager</code></pre>
+                    <pre><code class="language-bash hljs">systemctl enable NetworkManager</code></pre>
                     <p>This command creates a symbolic link in the systemd configuration to start NetworkManager automatically at boot. The service name is case-sensitive: <code>NetworkManager</code> (capital N and M).</p>
 
                     <h3>Understanding systemctl</h3>
@@ -801,7 +800,7 @@ ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime</code></pre>
                     <p>The solution is initramfs: a small file system loaded into RAM by the bootloader. It contains essential drivers and tools to mount the real root file system. Once mounted, the initramfs is discarded and the real system takes over.</p>
 
                     <h3>Generating Initramfs</h3>
-                    <pre><code class="language-bash">mkinitcpio -P</code></pre>
+                    <pre><code class="language-bash hljs">mkinitcpio -P</code></pre>
                     <p><code>mkinitcpio</code> (make initial CPIO archive) generates the initramfs. The <code>-P</code> flag means "preset" - it generates initramfs for all kernel presets configured in <code>/etc/mkinitcpio.d/</code>.</p>
 
                     <h3>When You Might Need Custom Configuration</h3>
@@ -833,7 +832,7 @@ ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime</code></pre>
                     <p>We'll use GRUB (GRand Unified Bootloader), the most popular Linux bootloader.</p>
 
                     <h3>For UEFI Systems</h3>
-                    <pre><code class="language-bash"># Install GRUB and EFI boot manager
+                    <pre><code class="language-bash hljs"># Install GRUB and EFI boot manager
 pacman -S grub efibootmgr
 
 # Install GRUB to the EFI directory
@@ -852,7 +851,7 @@ grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
                     </ul>
 
                     <h3>For BIOS/Legacy Systems</h3>
-                    <pre><code class="language-bash"># Install GRUB
+                    <pre><code class="language-bash hljs"># Install GRUB
 pacman -S grub
 
 # Install GRUB to the Master Boot Record
@@ -880,15 +879,15 @@ grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
                     <p>We've completed all the configuration steps. Now it's time to exit the chroot environment, unmount our partitions, and reboot into our new system.</p>
                     
                     <h3>Exiting Chroot</h3>
-                    <pre><code class="language-bash">exit</code></pre>
+                    <pre><code class="language-bash hljs">exit</code></pre>
                     <p>This exits the chroot environment and returns you to the live ISO. You're now working with the ISO's file system again, not the installed system.</p>
 
                     <h3>Unmounting Partitions</h3>
-                    <pre><code class="language-bash">umount -R /mnt</code></pre>
+                    <pre><code class="language-bash hljs">umount -R /mnt</code></pre>
                     <p>The <code>umount</code> command detaches file systems. The <code>-R</code> flag means "recursive" - it unmounts /mnt and all file systems mounted beneath it (like /mnt/boot). This is important to ensure all data is written to disk and no files are locked.</p>
 
                     <h3>Rebooting</h3>
-                    <pre><code class="language-bash">reboot</code></pre>
+                    <pre><code class="language-bash hljs">reboot</code></pre>
                     <p>This restarts the computer. The system should now boot from your hard drive into the newly installed Arch Linux.</p>
 
                     <div class="alert alert-tip">
@@ -931,7 +930,7 @@ grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
 
                     <h3>First Commands</h3>
                     <p>Let's verify everything is working:</p>
-                    <pre><code class="language-bash"># Check internet connection
+                    <pre><code class="language-bash hljs"># Check internet connection
 ping -c 3 archlinux.org
 
 # Check disk usage
@@ -971,7 +970,7 @@ pacman -Syu</code></pre>
                     </ul>
 
                     <h3>Creating a User Account</h3>
-                    <pre><code class="language-bash"># Create user with home directory, add to wheel group, set bash as shell
+                    <pre><code class="language-bash hljs"># Create user with home directory, add to wheel group, set bash as shell
 useradd -m -G wheel -s /bin/bash your_username
 
 # Set password for the new user
@@ -988,9 +987,9 @@ passwd your_username</code></pre>
 
                     <h3>Configuring Sudo</h3>
                     <p>Sudo (superuser do) allows authorized users to run commands as root. First, install it:</p>
-                    <pre><code class="language-bash">pacman -S sudo</code></pre>
+                    <pre><code class="language-bash hljs">pacman -S sudo</code></pre>
                     <p>Then edit the sudoers file:</p>
-                    <pre><code class="language-bash">EDITOR=nano visudo</code></pre>
+                    <pre><code class="language-bash hljs">EDITOR=nano visudo</code></pre>
                     <p>This opens the sudoers file in nano. Find this line:</p>
                     <pre><code># %wheel ALL=(ALL:ALL) ALL</code></pre>
                     <p>Remove the <code>#</code> to uncomment it:</p>
@@ -1026,20 +1025,20 @@ passwd your_username</code></pre>
                     <p>Popular options for Arch Linux:</p>
 
                     <h3>XFCE (Lightweight, Recommended for VMs)</h3>
-                    <pre><code class="language-bash">sudo pacman -S xfce4 xfce4-goodies lightdm lightdm-gtk-greeter</code></pre>
+                    <pre><code class="language-bash hljs">sudo pacman -S xfce4 xfce4-goodies lightdm lightdm-gtk-greeter</code></pre>
                     <p>XFCE is lightweight, fast, and uses minimal resources. Perfect for VMs or older hardware.</p>
 
                     <h3>KDE Plasma (Feature-rich, Modern)</h3>
-                    <pre><code class="language-bash">sudo pacman -S plasma-meta kde-applications-meta sddm</code></pre>
+                    <pre><code class="language-bash hljs">sudo pacman -S plasma-meta kde-applications-meta sddm</code></pre>
                     <p>KDE Plasma is modern, customizable, and feature-rich. Uses more resources but offers a polished experience.</p>
 
                     <h3>GNOME (Simple, Elegant)</h3>
-                    <pre><code class="language-bash">sudo pacman -S gnome gnome-extra gdm</code></pre>
+                    <pre><code class="language-bash hljs">sudo pacman -S gnome gnome-extra gdm</code></pre>
                     <p>GNOME focuses on simplicity and ease of use. Has a unique workflow that some users love and others find limiting.</p>
 
                     <h3>Enabling the Display Manager</h3>
                     <p>The display manager (DM) is the graphical login screen. Enable it to start at boot:</p>
-                    <pre><code class="language-bash"># For LightDM (XFCE)
+                    <pre><code class="language-bash hljs"># For LightDM (XFCE)
 sudo systemctl enable lightdm
 
 # For SDDM (KDE)
@@ -1114,7 +1113,7 @@ sudo systemctl enable gdm</code></pre>
                     
                     <h4>1. Download and Run the BlackArch Strap Script</h4>
                     <p>The strap script adds the BlackArch repository to your system:</p>
-                    <pre><code class="language-bash"># Download the strap script
+                    <pre><code class="language-bash hljs"># Download the strap script
 curl -O https://blackarch.org/strap.sh
 
 # Verify the SHA1 sum (security check)
@@ -1134,11 +1133,11 @@ sudo ./strap.sh</code></pre>
                     </ul>
 
                     <h4>2. Update Your System</h4>
-                    <pre><code class="language-bash">sudo pacman -Syyu</code></pre>
+                    <pre><code class="language-bash hljs">sudo pacman -Syyu</code></pre>
                     <p>The double <code>y</code> forces a refresh of all package databases, ensuring you have the latest BlackArch package list.</p>
 
                     <h4>3. Verify the Repository</h4>
-                    <pre><code class="language-bash"># List BlackArch packages
+                    <pre><code class="language-bash hljs"># List BlackArch packages
 pacman -Sl blackarch | head -20
 
 # List tool categories
@@ -1154,7 +1153,7 @@ pacman -Sg | grep blackarch</code></pre>
                     <p>Now that the BlackArch repository is added, you can install security tools. There are three approaches, each with different trade-offs.</p>
                     
                     <h3>Option 1: Install All Tools (Not Recommended)</h3>
-                    <pre><code class="language-bash">sudo pacman -S blackarch</code></pre>
+                    <pre><code class="language-bash hljs">sudo pacman -S blackarch</code></pre>
                     <p>This installs all 2,800+ tools. While tempting, this is discouraged because:</p>
                     <ul>
                         <li>Consumes ~22GB of disk space</li>
@@ -1165,7 +1164,7 @@ pacman -Sg | grep blackarch</code></pre>
 
                     <h3>Option 2: Install by Category (Recommended)</h3>
                     <p>BlackArch tools are organized into categories. Install only what you need:</p>
-                    <pre><code class="language-bash"># List all categories
+                    <pre><code class="language-bash hljs"># List all categories
 pacman -Sg | grep blackarch
 
 # Install specific categories
@@ -1190,7 +1189,7 @@ sudo pacman -S blackarch-crypto      # Cryptography tools</code></pre>
 
                     <h3>Option 3: Install Individual Tools</h3>
                     <p>For maximum control, install specific tools:</p>
-                    <pre><code class="language-bash"># Search for a tool
+                    <pre><code class="language-bash hljs"># Search for a tool
 pacman -Ss nmap
 
 # Install a specific tool
@@ -1264,6 +1263,9 @@ sudo pacman -S nmap</code></pre>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
     </button>
 
+    <!-- Highlight.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
     <!-- Scripts -->
     <script src="js/script.js"></script>
 </body>
