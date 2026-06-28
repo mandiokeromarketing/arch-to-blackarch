@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ch4120n.github.io/arch-to-blackarch/sitemap.xml
