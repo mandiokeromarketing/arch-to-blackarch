@@ -1,3 +1,4 @@
+```markdown
 <div align="center">
 
 # 🐧 The Ultimate Arch Linux to BlackArch Guide
@@ -171,43 +172,69 @@ Your main disk might be `/dev/sda` (SATA/BIOS) or `/dev/nvme0n1` (NVMe SSD). We'
 
 > [!IMPORTANT]
 > **Check if you're booted in UEFI:**  
-> Run `ls /sys/firmware/efi/efivars`. If the directory exists and is not empty, you're in UEFI mode.
+> Run `ls /sys/firmware/efi/efivars`. If the directory exists and is not empty, you're in UEFI mode (Use GPT). If it doesn't exist, you're in BIOS/Legacy mode (Use MBR).
 
-### Using `fdisk` (Simple & Effective)
+### Why `cfdisk`?
+We use **`cfdisk`** instead of `fdisk` because it provides a visual, menu-driven interface that is much safer and easier for beginners. You can see your partition layout clearly and navigate with arrow keys.
 
-Let's create partitions. We'll assume `/dev/sda` is the disk.
+### Option 1: UEFI Systems (GPT Partition Table)
+Run `cfdisk /dev/sda`. If prompted for a label type, select **`gpt`**.
 
-```bash
-fdisk /dev/sda
-```
+1. **Create EFI System Partition (ESP):**
+   - Select **[ New ]** → Enter size: `512M` → Select **[ Primary ]**
+   - Select **[ Type ]** → Choose `EFI System`
+2. **Create Swap:**
+   - Select **[ New ]** → Enter size: `4G` → Select **[ Primary ]**
+   - Select **[ Type ]** → Choose `Linux swap`
+3. **Create Root (`/`):**
+   - Select **[ New ]** → Press <kbd>Enter</kbd> (uses all remaining space) → Select **[ Primary ]**
+   - Type is already `Linux filesystem`
+4. **Write Changes:**
+   - Select **[ Write ]** → Type `yes` to confirm (⚠️ **This will erase data!**)
+   - Select **[ Quit ]**
 
-**Inside `fdisk` (for UEFI GPT):**
-1. Type <kbd>g</kbd> to create a new GPT partition table.
-2. **Create EFI System Partition (ESP):**
-   - Press <kbd>n</kbd> → <kbd>1</kbd> → <kbd>Enter</kbd> → <kbd>+512M</kbd>
-   - Press <kbd>t</kbd> → <kbd>1</kbd> (EFI System)
-3. **Create Swap:**
-   - Press <kbd>n</kbd> → <kbd>2</kbd> → <kbd>Enter</kbd> → <kbd>+4G</kbd>
-   - Press <kbd>t</kbd> → <kbd>2</kbd> → <kbd>19</kbd> (Linux swap)
-4. **Create Root (`/`):**
-   - Press <kbd>n</kbd> → <kbd>3</kbd> → <kbd>Enter</kbd> → <kbd>Enter</kbd> (uses all remaining space)
-5. **Write changes:** Press <kbd>w</kbd>
+### Option 2: BIOS/Legacy Systems (MBR Partition Table)
+Run `cfdisk /dev/sda`. If prompted for a label type, select **`dos`**.
+
+1. **Create Boot Partition:**
+   - Select **[ New ]** → Enter size: `512M` → Select **[ Primary ]**
+   - Select **[ Bootable ]** (to set the boot flag)
+2. **Create Swap:**
+   - Select **[ New ]** → Enter size: `4G` → Select **[ Primary ]**
+   - Select **[ Type ]** → Choose `Linux swap`
+3. **Create Root (`/`):**
+   - Select **[ New ]** → Press <kbd>Enter</kbd> (uses all remaining space) → Select **[ Primary ]**
+4. **Write Changes:**
+   - Select **[ Write ]** → Type `yes` to confirm (⚠️ **This will erase data!**)
+   - Select **[ Quit ]**
 
 ---
 
 ## 🧹 Step 5: Format the Partitions
 
-Now we format the partitions with the appropriate file systems:
+Now we format the partitions with the appropriate file systems.
 
+### For UEFI (GPT):
 ```bash
 # 1. EFI partition (must be FAT32)
 mkfs.fat -F32 /dev/sda1
 
 # 2. Swap partition
-mkswap /dev/sda2
-swapon /dev/sda2   # enable swap temporarily
+mkswap /dev/sda2 && swapon /dev/sda2
 
-# 3. Root partition (ext4 is standard and reliable)
+# 3. Root partition
+mkfs.ext4 /dev/sda3
+```
+
+### For BIOS (MBR):
+```bash
+# 1. Boot partition (ext4)
+mkfs.ext4 /dev/sda1
+
+# 2. Swap partition
+mkswap /dev/sda2 && swapon /dev/sda2
+
+# 3. Root partition
 mkfs.ext4 /dev/sda3
 ```
 
@@ -215,13 +242,13 @@ mkfs.ext4 /dev/sda3
 
 ## 📂 Step 6: Mount the File Systems
 
-Mount the root partition to `/mnt`, then create and mount the EFI directory:
+For both UEFI and MBR, we mount the root partition to `/mnt` and the boot partition to `/mnt/boot`:
 
 ```bash
-# Mount root
+# Mount root partition
 mount /dev/sda3 /mnt
 
-# Create and mount EFI directory
+# Create and mount boot directory
 mkdir -p /mnt/boot
 mount /dev/sda1 /mnt/boot
 ```
